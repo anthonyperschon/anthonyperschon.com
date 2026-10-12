@@ -31,7 +31,7 @@
   /* the brand rule sits under section headings only (job 2026-10-12-009); hairlines everywhere else */
   .eyebrow { font: 800 34px/1 var(--display); letter-spacing: .02em; text-transform: uppercase; color: var(--frost); margin-bottom: 22px;
              padding-bottom: 12px; border-bottom: 3px solid var(--brand); }
-  .wordmark { font: 600 15px/1 var(--display); letter-spacing: .16em; text-transform: uppercase; color: var(--frost); text-decoration: none; }
+  .wordmark { font: 600 12px/1 var(--display); letter-spacing: .16em; text-transform: uppercase; color: var(--slate); text-decoration: none; }   /* matches MENU */
 
   /* hero. Phone: the photo full bleed from the top edge, a fade from the middle to the page ground, the headline, the
      three numbers and the button on the dark lower third, all inside the first screen. Desktop: text left, photo right. */
@@ -59,7 +59,8 @@
   html.menu-open, html.menu-open body { overflow: hidden; }
   @media (min-width: 900px) {
     .hero .pic img { object-position: 53% 46%; }
-    .hero h1 { font-size: 64px; }
+    .hero h1 .l1 { font-size: 72px; }
+    .hero h1 .l2 { font-size: 52px; }
     .kicker { font-size: 14px; margin-top: 16px; }
     .tabs-nav { display: flex; }
     .tabs-nav a { font-size: 14px; }
@@ -72,7 +73,14 @@
   .hero .pic::after { content: ""; position: absolute; inset: 0;
                       background: linear-gradient(180deg, rgba(7,12,18,.45) 0%, rgba(7,12,18,0) 12%, rgba(7,12,18,0) 65%, var(--black-ice) 100%); }
   .hero .copy { position: relative; z-index: 2; width: 100%; margin-top: auto; padding: 0 20px 28px; }
-  .hero h1 { font-size: 32px; line-height: .95; text-shadow: 0 2px 20px rgba(7,12,18,.5); }
+  /* the headline in two weights (5:31 PM pass): the first line frost and larger, the second slate */
+  .hero h1 { line-height: .95; text-shadow: 0 2px 20px rgba(7,12,18,.5); }
+  .hero h1 .l1 { font-size: 40px; color: var(--frost); }
+  .hero h1 .l2 { font-size: 30px; color: var(--slate); margin-top: 4px; }
+  .herobtn { margin-top: 16px; }
+  /* the photo holds still: one fixed screen height, nothing scales or moves with the scroll */
+  .hero { height: 100vh; height: 100svh; }
+  .hero .pic picture { display: block; width: 100%; height: 100%; }
   .hero h1 .l { white-space: nowrap; }
   .kicker { font: 600 12px/1.2 var(--display); letter-spacing: .16em; text-transform: uppercase; color: var(--slate); margin-top: 12px; }
   /* the intro, the second screen: the sentence, the three numbers, the button and Live stats */
@@ -129,22 +137,25 @@
 
   /* the numbers: one table at every width */
   .ntable { margin-top: 4px; }
-  .nrow { display: grid; grid-template-columns: 1.15fr 1fr 1fr; gap: 12px; align-items: start; padding: 16px 0; border-top: 1px solid var(--line); }
+  .nrow { padding: 18px 0; border-top: 1px solid var(--line); }
   .nrow:first-child { border-top: 0; padding-top: 4px; }
-  .nk b { display: block; font: 600 15px/1.2 var(--display); letter-spacing: .16em; text-transform: uppercase; color: var(--frost); }
-  .nk a { display: inline-block; font-size: 13px; color: var(--slate); text-decoration: none; border-bottom: 1px solid var(--line); margin-top: 6px; }
+  .nk { font: 600 12px/1.2 var(--display); letter-spacing: .16em; text-transform: uppercase; color: var(--slate); }
+  .nk a { text-transform: none; color: var(--slate); text-decoration: none; }
   .nk a:hover, .nk a:focus-visible { color: var(--frost); }
+  .nvs { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 10px; }
   .nv b { display: block; font: 800 32px/1 var(--display); color: var(--frost); white-space: nowrap; }
   .nv span { display: block; font-size: 13px; color: var(--slate); margin-top: 4px; }
   .small { font-size: 13px; color: var(--slate); margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line); }
   .aud { font-size: 15px; color: #c9d6df; margin-top: 12px; }
 
-  /* services: hairlines between the three */
-  .svcs { display: grid; grid-template-columns: 1fr; gap: 0; margin-top: 4px; }
-  .svc { padding: 16px 0; border-top: 1px solid var(--line); }
-  .svc:first-child { border-top: 0; padding-top: 4px; }
-  .svc h3 { font-size: 17px; font-weight: 700; line-height: 1.3; }
-  .svc p { font-size: 15px; color: #c9d6df; margin-top: 4px; }
+  /* services: five cover strips, 1920 x 820, 12px apart; the card colour until a photo lands */
+  .svcs { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 4px; }
+  .strip { position: relative; aspect-ratio: 1920 / 820; overflow: hidden; background: var(--card); }
+  .strip img { width: 100%; height: 100%; object-fit: cover; }
+  .strip::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(7,12,18,0) 50%, var(--black-ice) 100%); }
+  .strip .sv { position: absolute; z-index: 1; left: 16px; right: 16px; bottom: 14px; }
+  .strip .sn { display: block; font: 800 24px/1 var(--display); text-transform: uppercase; color: var(--frost); }
+  .strip .sl { display: block; font-size: 14px; line-height: 1.35; color: var(--slate); margin-top: 6px; }
 
   /* partners: five equal 120 x 44 boxes, each mark contained, frost at .85; three columns at 390, one row of five on desktop */
   .logos { display: flex; flex-wrap: wrap; justify-content: center; gap: 22px 12px; margin-top: 8px; }   /* three per row at 390, the last row centred */
@@ -178,9 +189,7 @@
     .stats { padding-right: 0; }
     .stat b { font-size: 40px; }
     .nv b { font-size: 40px; }
-    .svcs { grid-template-columns: repeat(3, 1fr); gap: 0; }
-    .svc, .svc:first-child { border-top: 0; padding: 4px 28px 4px 0; }
-    .svc + .svc { border-left: 1px solid var(--line); padding-left: 28px; }
+    .nvs { grid-template-columns: repeat(2, minmax(0, 260px)); }
     .logos { flex-wrap: nowrap; justify-content: space-between; }
     .lbox { flex: 0 0 120px; }
   }
