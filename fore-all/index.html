@@ -38,7 +38,15 @@
   .hero { position: relative; overflow: hidden; min-height: 100vh; min-height: 100svh; display: flex; flex-direction: column; }
   .hero .top { position: relative; z-index: 2; display: flex; justify-content: space-between; align-items: center; gap: 12px;
                padding-top: 20px; padding-bottom: 20px; width: 100%; }
-  .top a.mail { font-size: 14px; text-decoration: none; border-bottom: 1px solid rgba(234,242,247,.6); }
+  /* header tabs (job 2026-10-12-010): the label style, slate, frost on hover; at phone width they take their own row under
+     the wordmark, full width, spread out, never wrapping mid-row and never shrinking the wordmark */
+  .top { flex-wrap: wrap; }
+  .top .wordmark { flex: none; white-space: nowrap; }
+  .tabs-nav { display: flex; gap: 28px; white-space: nowrap; }
+  .tabs-nav a { font: 600 12px/1 var(--display); letter-spacing: .16em; text-transform: uppercase; color: var(--slate); text-decoration: none; padding: 6px 0; }
+  .tabs-nav a:hover, .tabs-nav a:focus-visible { color: var(--frost); }
+  @media (max-width: 699px) { .tabs-nav { flex-basis: 100%; justify-content: space-between; gap: 0; margin-top: 4px; } }
+  @media (min-width: 700px) { .tabs-nav a { font-size: 14px; } }
   .hero .pic { position: absolute; inset: 0; }
   .hero .pic img { width: 100%; height: 100%; object-fit: cover; object-position: 53% 30%; }
   .hero .pic::after { content: ""; position: absolute; inset: 0;
@@ -163,7 +171,7 @@
 <header class="case-top">
   <div class="wrap top">
     <a class="wordmark" href="/">Anthony Perschon</a>
-    <a class="mail" href="mailto:hello@anthonyperschon.com">hello@anthonyperschon.com</a>
+    <nav class="tabs-nav" aria-label="Sections"><a href="/#work">Work</a><a href="/#numbers">Numbers</a><a href="/#services">Services</a><a href="/#contact">Contact</a></nav>
   </div>
 </header>
 
@@ -239,7 +247,7 @@
     <p class="fa-total"><b>391,781</b>views across eleven of the twelve posts, as of 12 October 2026</p>
   </section>
 
-  <section class="contact">
+  <section class="contact" id="contact">
     <h2 class="eyebrow">Contact</h2>
     <p class="based">Based in Salt Lake City. Available for travel.</p>
     <a class="mailbig" href="mailto:hello@anthonyperschon.com">hello@anthonyperschon.com</a>
