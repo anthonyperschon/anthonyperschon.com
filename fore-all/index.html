@@ -35,7 +35,7 @@
 
   /* hero. Phone: the photo full bleed from the top edge, a fade from the middle to the page ground, the headline, the
      three numbers and the button on the dark lower third, all inside the first screen. Desktop: text left, photo right. */
-  .hero { position: relative; overflow: hidden; min-height: 100vh; min-height: 100svh; display: flex; flex-direction: column; }
+  .hero { position: relative; overflow: hidden; display: flex; flex-direction: column; }
   .hero .top { position: relative; z-index: 2; display: flex; justify-content: space-between; align-items: center; gap: 12px;
                padding-top: 20px; padding-bottom: 20px; width: 100%; }
   /* header tabs (job 2026-10-12-010): the label style, slate, frost on hover; at phone width they take their own row under
@@ -58,9 +58,10 @@
   .menu nav a { font: 800 40px/1 var(--display); text-transform: uppercase; color: var(--frost); text-decoration: none; }
   html.menu-open, html.menu-open body { overflow: hidden; }
   @media (min-width: 900px) {
+    .hero .herobtn a.btn { flex: none; height: 52px; padding: 0 26px; }
     .hero .pic img { object-position: 53% 46%; }
     .hero h1 .l1 { font-size: 72px; }
-    .hero h1 .l2 { font-size: 52px; }
+    .hero h1 .l2 { font-size: 40px; }
     .kicker { font-size: 14px; margin-top: 16px; }
     .tabs-nav { display: flex; }
     .tabs-nav a { font-size: 14px; }
@@ -76,10 +77,14 @@
   /* the headline in two weights (5:31 PM pass): the first line frost and larger, the second slate */
   .hero h1 { line-height: .95; text-shadow: 0 2px 20px rgba(7,12,18,.5); }
   .hero h1 .l1 { font-size: 40px; color: var(--frost); }
-  .hero h1 .l2 { font-size: 30px; color: var(--slate); margin-top: 4px; }
-  .herobtn { margin-top: 16px; }
+  .hero h1 .l2 { font-size: 24px; color: var(--slate); margin-top: 4px; }
+  /* two buttons side by side, one height and radius, label style 14px: WORK WITH ME filled, LIVE STATS outlined; on the
+     phone they share the column with 12px between */
+  .herobtn { display: flex; gap: 12px; margin-top: 16px; }
+  .herobtn a.btn { flex: 1 1 0; height: 48px; padding: 0 12px; font: 600 14px/1 var(--display); letter-spacing: .16em; }
+  a.btn.ghost { background: none; border: 1px solid rgba(234,242,247,.7); color: var(--frost); }
   /* the photo holds still: one fixed screen height, nothing scales or moves with the scroll */
-  .hero { height: 100vh; height: 100svh; }
+  .hero { height: 100svh; }   /* until the script writes the pixel height at load; no vh, lvh or dvh on the hero */
   .hero .pic picture { display: block; width: 100%; height: 100%; }
   .hero h1 .l { white-space: nowrap; }
   .kicker { font: 600 12px/1.2 var(--display); letter-spacing: .16em; text-transform: uppercase; color: var(--slate); margin-top: 12px; }
@@ -120,8 +125,11 @@
   .covers { display: grid; grid-template-columns: 1fr; gap: 16px; }
   .cover { position: relative; display: block; aspect-ratio: 16 / 9; overflow: hidden; background: var(--card); text-decoration: none; }
   .cover img { width: 100%; height: 100%; object-fit: cover; }
-  .cover::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(7,12,18,0) 45%, rgba(7,12,18,.88) 78%, var(--black-ice) 100%); }
-  .cover .cv { position: absolute; z-index: 1; left: 16px; right: 48px; bottom: 14px; }
+  /* name and line centred over an evenly darkened photo (5:38 PM pass); the whole tile is the link */
+  .cover::after { content: ""; position: absolute; inset: 0; background: rgba(7,12,18,.45); }
+  .cover .cv { position: absolute; z-index: 1; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
+               padding: 0 20px; text-align: center; }
+  .cover .cv, .strip .sv { text-shadow: 0 1px 12px rgba(7,12,18,.85); }
   .cover .cn { display: block; font: 800 28px/1 var(--display); text-transform: uppercase; color: var(--frost); }
   .cover .cl { display: block; font-size: 14px; line-height: 1.35; color: var(--slate); margin-top: 6px; }
   .cover .chev { position: absolute; z-index: 1; right: 20px; bottom: 22px; width: 10px; height: 10px; border-right: 2px solid var(--frost);
@@ -139,8 +147,10 @@
   .ntable { margin-top: 4px; }
   .nrow { padding: 18px 0; border-top: 1px solid var(--line); }
   .nrow:first-child { border-top: 0; padding-top: 4px; }
+  /* row header: the platform's mark and name, one link to the profile, nothing underlined */
   .nk { font: 600 12px/1.2 var(--display); letter-spacing: .16em; text-transform: uppercase; color: var(--slate); }
-  .nk a { text-transform: none; color: var(--slate); text-decoration: none; }
+  .nk a { display: inline-flex; align-items: center; gap: 8px; color: var(--slate); text-decoration: none; }
+  .nk svg { color: var(--frost); flex: none; }
   .nk a:hover, .nk a:focus-visible { color: var(--frost); }
   .nvs { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 10px; }
   .nv b { display: block; font: 800 32px/1 var(--display); color: var(--frost); white-space: nowrap; }
@@ -152,8 +162,9 @@
   .svcs { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 4px; }
   .strip { position: relative; aspect-ratio: 1920 / 820; overflow: hidden; background: var(--card); }
   .strip img { width: 100%; height: 100%; object-fit: cover; }
-  .strip::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(7,12,18,0) 50%, var(--black-ice) 100%); }
-  .strip .sv { position: absolute; z-index: 1; left: 16px; right: 16px; bottom: 14px; }
+  .strip::after { content: ""; position: absolute; inset: 0; background: rgba(7,12,18,.45); }
+  .strip .sv { position: absolute; z-index: 1; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
+               padding: 0 20px; text-align: center; }
   .strip .sn { display: block; font: 800 24px/1 var(--display); text-transform: uppercase; color: var(--frost); }
   .strip .sl { display: block; font-size: 14px; line-height: 1.35; color: var(--slate); margin-top: 6px; }
 
