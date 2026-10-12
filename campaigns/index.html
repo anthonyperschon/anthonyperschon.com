@@ -58,15 +58,26 @@
   .menu nav a { font: 800 40px/1 var(--display); text-transform: uppercase; color: var(--frost); text-decoration: none; }
   html.menu-open, html.menu-open body { overflow: hidden; }
   @media (min-width: 900px) {
+    .hero .pic img { object-position: 53% 46%; }
+    .hero h1 { font-size: 64px; }
+    .kicker { font-size: 14px; margin-top: 16px; }
     .tabs-nav { display: flex; }
     .tabs-nav a { font-size: 14px; }
     .menu-btn, .menu { display: none !important; }
   }
   .hero .pic { position: absolute; inset: 0; }
   .hero .pic img { width: 100%; height: 100%; object-fit: cover; object-position: 53% 30%; }
+  /* hero rebuild (12 Oct 2026): the first screen is the photo. A top scrim for the header, a fade to the page ground over
+     the bottom 35 percent, and two text pieces bottom-left: the headline and one label line. The rest waits in the intro. */
   .hero .pic::after { content: ""; position: absolute; inset: 0;
-                      background: linear-gradient(180deg, rgba(7,12,18,.45) 0%, rgba(7,12,18,0) 14%, rgba(7,12,18,0) 42%, rgba(7,12,18,.88) 62%, var(--black-ice) 78%); }
-  .hero .copy { position: relative; z-index: 2; width: 100%; margin-top: auto; padding-bottom: 28px; }
+                      background: linear-gradient(180deg, rgba(7,12,18,.45) 0%, rgba(7,12,18,0) 12%, rgba(7,12,18,0) 65%, var(--black-ice) 100%); }
+  .hero .copy { position: relative; z-index: 2; width: 100%; margin-top: auto; padding: 0 20px 28px; }
+  .hero h1 { font-size: 32px; line-height: .95; text-shadow: 0 2px 20px rgba(7,12,18,.5); }
+  .hero h1 .l { white-space: nowrap; }
+  .kicker { font: 600 12px/1.2 var(--display); letter-spacing: .16em; text-transform: uppercase; color: var(--slate); margin-top: 12px; }
+  /* the intro, the second screen: the sentence, the three numbers, the button and Live stats */
+  section.intro { border-top: 0; padding: 48px 0; }
+  .lead { font-size: 17px; line-height: 1.5; color: var(--frost); }
   /* phone: 42px, line height .95; each sentence its own line (44px wrapped the second at 390) */
   h1 { font: 800 42px/.95 var(--display); letter-spacing: .005em; text-transform: uppercase; }
   h1 .l { display: block; text-wrap: balance; }   /* at 42 the second sentence (430px) still breaks at 390: it breaks evenly */
@@ -154,16 +165,8 @@
   @media (min-width: 700px) {
     .wrap { padding: 0 32px; }
     section { padding: 80px 0; }
-    .hero { min-height: min(88vh, 900px); }
-    .hero .pic { left: auto; width: min(52%, 640px); }
-    .hero .pic::after { background: linear-gradient(to right, var(--black-ice) 0%, rgba(7,12,18,0) 22%),
-                                      linear-gradient(to top, var(--black-ice) 0%, rgba(7,12,18,0) 18%); }
-    .hero .copy { padding-bottom: 64px; }
-    .hero .copy > * { max-width: 52%; }
-    /* the headline keeps its two lines at full size: it runs the full width, over the photo's faded left edge */
-    .hero .copy > h1 { max-width: none; text-shadow: 0 2px 24px rgba(7,12,18,.6); }
-    h1 { font-size: clamp(52px, 7.4vw, 96px); line-height: .9; }
-    h1 .l { display: block; white-space: nowrap; }
+    .hero .copy { padding: 0 32px 64px; }
+    section.intro { padding: 48px 0; }
     .cta { flex-direction: row; gap: 20px; }
     .cta a.btn { width: auto; }
     .contact .btnrow a.btn { width: auto; }
