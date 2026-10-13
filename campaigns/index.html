@@ -156,7 +156,7 @@
   .strip .tt { font-size: 17px; }
 
   /* one title treatment for tiles and strips (K, job 2026-10-13-010; centred and the slide-up description, job 011):
-     no darkening at rest, a small spaced Figtree title centred on both axes, the index number top-left on the work tiles,
+     no darkening at rest, a small spaced Figtree title centred on both axes (no index numbers since job 014),
      the arrow bottom-right. Lit (hover and focus from 900 px; a tap, class "in", under 900 px): the title goes solid and
      stays where it is, a gradient comes up from the bottom, the description slides up into place over it, the frost
      edge and the filled arrow show, the photo eases to 1.03. At rest the description is hidden at every width. */
@@ -174,8 +174,6 @@
               opacity: 0; pointer-events: none; transition: opacity 250ms ease; }
   .tile .go svg { display: block; width: 12px; height: 12px; }
   .tile .go::after { content: ""; position: absolute; inset: -7px; }   /* a 44 px tap target around the 30 px circle */
-  .tile .ix { position: absolute; z-index: 2; top: 14px; left: 16px; font: 600 12px/1 var(--display); letter-spacing: .16em;
-              color: rgba(232,237,243,.9); text-shadow: 0 2px 12px rgba(0,0,0,.6); }
   .tile .tt { position: absolute; z-index: 2; inset: 0; display: flex; align-items: center; justify-content: center; padding: 0 48px;
               text-align: center; font-family: var(--body); font-weight: 700; line-height: 1.2; letter-spacing: .2em; text-transform: uppercase;
               color: rgba(232,237,243,.85); text-shadow: 0 2px 12px rgba(0,0,0,.6); transition: color 250ms ease; }   /* 48 px each side clears the arrow */
