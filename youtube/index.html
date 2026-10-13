@@ -132,10 +132,10 @@
   .cover { text-decoration: none; }
   .cover .tm { aspect-ratio: 16 / 9; }
   /* work tiles (job 2026-10-13-021): the strip structure and the strip rules below, description under the cover */
-  /* desktop tile titles on one line (job 2026-10-13-025): .14em from 1100 px, 16 px at .02em from 900 to 1099 px, so
-     "YouTube integrations" fits the tile; the strips keep theirs */
+  /* desktop tile titles on one line (job 2026-10-13-025): .14em from 1100 px; 15 px at .02em from 900 to 1099 px (025b,
+     so the YouTube cover's right sole sits past the title's end); the strips keep theirs */
   @media (min-width: 1100px) { .tile.cover .tt { letter-spacing: .14em; } }
-  @media (min-width: 900px) and (max-width: 1099px) { .tile.cover .tt { font-size: 16px; letter-spacing: .02em; } }
+  @media (min-width: 900px) and (max-width: 1099px) { .tile.cover .tt { font-size: 15px; letter-spacing: .02em; } }
   /* work pages: the group name, its line, the way back */
   .work-head { padding: 28px 0 28px; }
   .work-head h1 { font-size: 34px; }
