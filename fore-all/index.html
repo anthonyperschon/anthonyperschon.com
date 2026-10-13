@@ -155,12 +155,12 @@
   .strip .tm { aspect-ratio: 1920 / 820; }
   .strip .tt { font-size: 17px; }
 
-  /* one title treatment for tiles and strips, K (job 2026-10-13-010): no darkening at rest, a small spaced Figtree title
-     bottom-left, the index number top-left on the work tiles. Lit (hover and focus from 900 px, .in and :active under
-     900 px): the title goes solid (same spacing, so it never changes line count), a gradient comes up from the bottom, the frost edge and the filled
-     arrow show, the photo eases to 1.03. From 900 px the description comes in centred above the title; under 900 px it
-     sits under the photo in slate. */
-  .tile { display: block; position: relative; color: inherit; }
+  /* one title treatment for tiles and strips (K, job 2026-10-13-010; centred and the slide-up description, job 011):
+     no darkening at rest, a small spaced Figtree title centred on both axes, the index number top-left on the work tiles,
+     the arrow bottom-right. Lit (hover and focus from 900 px; a tap, class "in", under 900 px): the title goes solid and
+     stays where it is, a gradient comes up from the bottom, the description slides up into place over it, the frost
+     edge and the filled arrow show, the photo eases to 1.03. At rest the description is hidden at every width. */
+  .tile { display: block; position: relative; color: inherit; -webkit-tap-highlight-color: transparent; }
   .tile .tm { position: relative; display: block; overflow: hidden; background: var(--card); }
   .tile .tm img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 250ms ease; }
   .tile .tm::after { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; opacity: 0;
@@ -173,36 +173,46 @@
               color: rgba(234,242,247,.7); background: transparent;
               transition: background-color 250ms ease, color 250ms ease, border-color 250ms ease; }
   .tile .go svg { display: block; width: 12px; height: 12px; }
-  .tile.pale .tm::after { background: linear-gradient(180deg, rgba(11,14,20,0) 60%, rgba(11,14,20,.7) 100%); }   /* light frames: 03 sand, 05 pink */
   .tile .ix { position: absolute; z-index: 2; top: 14px; left: 16px; font: 600 12px/1 var(--display); letter-spacing: .16em;
               color: rgba(232,237,243,.9); text-shadow: 0 2px 12px rgba(0,0,0,.6); }
-  .tile .tt { position: absolute; z-index: 2; left: 16px; right: 48px; bottom: 16px; text-align: left;   /* 48 px clears the arrow */
-              font-family: var(--body); font-weight: 700; line-height: 1.2; letter-spacing: .2em; text-transform: uppercase;
-              color: rgba(232,237,243,.85); text-shadow: 0 2px 12px rgba(0,0,0,.6);
-              transition: color 250ms ease; }
-  .tile .ds { display: block; font-size: 14px; line-height: 1.45; color: var(--slate); margin-top: 10px; text-align: center; }
+  .tile .tt { position: absolute; z-index: 2; inset: 0; display: flex; align-items: center; justify-content: center; padding: 0 48px;
+              text-align: center; font-family: var(--body); font-weight: 700; line-height: 1.2; letter-spacing: .2em; text-transform: uppercase;
+              color: rgba(232,237,243,.85); text-shadow: 0 2px 12px rgba(0,0,0,.6); transition: color 250ms ease; }   /* 48 px each side clears the arrow */
+  /* light frames (03 sand, 05 pink): a soft rest gradient behind the title and arrow, gone when lit; the lit gradient goes to .7 */
+  .tile.pale .tt::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+                           background: linear-gradient(180deg, rgba(11,14,20,0) 65%, rgba(11,14,20,.45) 100%); transition: opacity 250ms ease; }
+  .tile.pale .tm::after { background: linear-gradient(180deg, rgba(11,14,20,0) 60%, rgba(11,14,20,.7) 100%); }
+  /* the description: hidden at rest, slides up 12 px into place when lit, centred, 56 px from each side, 16 px off the bottom */
+  .tile .ds { position: absolute; z-index: 2; left: 0; right: 0; bottom: 16px; padding: 0 56px; text-align: center;
+              font-size: 14px; line-height: 1.45; color: var(--frost); text-shadow: 0 2px 12px rgba(0,0,0,.6);
+              opacity: 0; transform: translateY(12px); transition: opacity 250ms ease, transform 250ms ease; }
   .tile:focus-visible { outline: 2px solid var(--frost); outline-offset: 4px; }
   @media (max-width: 899px) {
+    .tile .tt { padding: 0 16px; }   /* phones: a centred title never reaches the arrow row, so 16 px keeps it on one line */
+    .tile .ds { bottom: 16px; }      /* phones: the 56 px sides keep it clear of the arrow */
     .tile:active .tt, .tile.in .tt { color: var(--frost); }
     .tile:active .tm::after, .tile.in .tm::after { opacity: 1; }
     .tile:active .tm::before, .tile.in .tm::before { opacity: 1; }
     .tile:active .tm img, .tile.in .tm img { transform: scale(1.03); }
     .tile:active .go, .tile.in .go { background: var(--frost); border-color: var(--frost); color: var(--black-ice); }
+    .tile.pale:active .tt::before, .tile.pale.in .tt::before { opacity: 0; }
+    .tile.in .ds { opacity: 1; transform: none; }
+  }
+  @media (max-width: 379px) {
+    .tile .ds { font-size: 13px; }   /* small phones: two lines at most under the title */
+    .tile .tt { letter-spacing: .14em; }   /* small phones: every title stays on one line */
   }
   @media (min-width: 900px) {
-    /* the description sits centred above the one-line title: 16 px inset + the title line + 10 px */
-    .tile .ds { position: absolute; z-index: 2; left: 0; right: 0; bottom: 44px; margin: 0; padding: 0 56px; color: var(--frost);
-                text-shadow: 0 2px 12px rgba(0,0,0,.6); opacity: 0; transition: opacity 250ms ease; }
-    .strip .ds { bottom: 47px; }
     .tile:hover .tt, .tile:focus-visible .tt { color: var(--frost); }
     .tile:hover .tm::after, .tile:focus-visible .tm::after { opacity: 1; }
     .tile:hover .tm::before, .tile:focus-visible .tm::before { opacity: 1; }
     .tile:hover .go, .tile:focus-visible .go { background: var(--frost); border-color: var(--frost); color: var(--black-ice); }
     .tile:hover .tm img, .tile:focus-visible .tm img { transform: scale(1.03); }
-    .tile:hover .ds, .tile:focus-visible .ds { opacity: 1; }
+    .tile.pale:hover .tt::before, .tile.pale:focus-visible .tt::before { opacity: 0; }
+    .tile:hover .ds, .tile:focus-visible .ds { opacity: 1; transform: none; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .tile .tm img, .tile .tm::after, .tile .tm::before, .tile .tt, .tile .ds, .tile .go { transition: none; }
+    .tile .tm img, .tile .tm::after, .tile .tm::before, .tile .tt, .tile .tt::before, .tile .ds, .tile .go { transition: none; }
   }
 
   /* partners: five equal 120 x 44 boxes, each mark contained, frost at .85; three columns at 390, one row of five on desktop */
