@@ -43,8 +43,10 @@
   /* header tabs (job 2026-10-12-010): the label style, slate, frost on hover; at phone width they take their own row under
      the wordmark, full width, spread out, never wrapping mid-row and never shrinking the wordmark */
   .top { flex-wrap: wrap; }
-  .top .wordmark { flex: none; white-space: nowrap; display: inline-flex; align-items: center; gap: 8px; }
-  .wordmark .apmark { display: block; height: 22px; width: 22px; flex: none; }   /* the AP mark (job 2026-10-13-018) */
+  /* the AP mark alone is the home link (job 2026-10-13-019): 26 px under 900, 30 px from 900. The link stays 22 px tall,
+     as in 018, and the mark overflows it evenly, so the header keeps its height; the mark is nudged onto the nav's centre */
+  .top .wordmark { flex: none; display: inline-flex; align-items: center; height: 22px; }
+  .wordmark .apmark { display: block; height: 26px; width: auto; flex: none; }
   .tabs-nav { display: flex; gap: 28px; white-space: nowrap; }
   .tabs-nav a { font: 600 12px/1 var(--display); letter-spacing: .16em; text-transform: uppercase; color: var(--slate); text-decoration: none; padding: 6px 0; }
   .tabs-nav a:hover, .tabs-nav a:focus-visible { color: var(--frost); }
@@ -70,6 +72,7 @@
     .hero h1 .l2 { font-size: 40px; }
     .kicker { font-size: 14px; margin-top: 16px; }
     .tabs-nav { display: flex; }
+    .wordmark .apmark { height: 30px; }
     .tabs-nav a { font-size: 14px; }
     .menu-btn, .menu { display: none !important; }
   }
@@ -277,7 +280,7 @@
 <body>
 <header class="hero" id="hero">
   <div class="wrap top">
-    <a class="wordmark" href="/"><img class="apmark" src="/assets/brand/ap-mark-dark.svg" alt="AP" width="22" height="22">Anthony Perschon</a>
+    <a class="wordmark" href="/" aria-label="Anthony Perschon, home"><img class="apmark" src="/assets/brand/ap-mark-dark.svg" alt="AP" width="26" height="26"></a>
     <nav class="tabs-nav" aria-label="Sections"><a href="#work">Work</a><a href="#numbers">Numbers</a><a href="#services">Services</a><a href="#contact">Contact</a></nav>
     <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
   </div>
