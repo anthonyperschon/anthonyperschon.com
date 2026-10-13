@@ -172,6 +172,7 @@
               color: rgba(234,242,247,.7); background: transparent;
               transition: background-color 250ms ease, color 250ms ease, border-color 250ms ease; }
   .tile .go svg { display: block; width: 12px; height: 12px; }
+  .tile .go::after { content: ""; position: absolute; inset: -7px; }   /* a 44 px tap target around the 30 px circle */
   .tile .ix { position: absolute; z-index: 2; top: 14px; left: 16px; font: 600 12px/1 var(--display); letter-spacing: .16em;
               color: rgba(232,237,243,.9); text-shadow: 0 2px 12px rgba(0,0,0,.6); }
   .tile .tt { position: absolute; z-index: 2; inset: 0; display: flex; align-items: center; justify-content: center; padding: 0 48px;
@@ -180,12 +181,16 @@
   /* light frames (03 sand, 05 pink): a soft rest gradient behind the title and arrow, gone when lit; the lit gradient goes to .7 */
   .tile.pale .tm::before { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
                            background: linear-gradient(180deg, rgba(11,14,20,0) 65%, rgba(11,14,20,.45) 100%); transition: opacity 250ms ease; }
-  .tile.pale .tm::after { background: linear-gradient(180deg, rgba(11,14,20,0) 60%, rgba(11,14,20,.7) 100%); }
-  /* service strips (job 2026-10-13-012): the title sits bottom-left, 16 px in, 48 px clear of the arrow, at every width,
-     with the description stacked 10 px above it however many lines the title takes; the work tiles keep theirs centred */
-  .tile.strip .cap { position: absolute; z-index: 2; left: 0; right: 0; bottom: 16px; display: flex; flex-direction: column; }
-  .tile.strip .cap .tt { position: static; display: block; padding: 0 48px 0 16px; text-align: left; }
-  .tile.strip .cap .ds { position: static; margin-bottom: 10px; }
+  /* service strips (jobs 2026-10-13-012 and 013): the title sits bottom-left, 16 px in, 48 px clear of the arrow, at every
+     width, and stays put when lit. Lit, nothing is drawn over the photo but the frost edge and the filled arrow (no
+     gradient); the description opens below the strip, in the gap, Figtree 400 14 px slate, centred, its height easing
+     from 0 over 250 ms, and closes when the strip unlights. The work tiles keep their on-photo description. */
+  .tile.strip .tt { inset: auto 48px 16px 16px; display: block; padding: 0; text-align: left; }
+  .tile.strip .tm::after { background: none; }
+  .tile.strip .dsw { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 250ms ease; }
+  .tile.strip .ds { position: static; overflow: hidden; min-height: 0; padding: 0; opacity: 1; transform: none;
+                    font: 400 14px/1.45 var(--body); color: var(--slate); text-shadow: none; text-align: center; }
+  .tile.strip .ds > span { display: block; padding: 10px 16px 2px; }
   /* the description: hidden at rest, slides up 12 px into place when lit, centred, 56 px from each side, 16 px off the bottom
      on the tiles; on the strips it is stacked above the title (below) */
   .tile .ds { position: absolute; z-index: 2; left: 0; right: 0; bottom: 16px; padding: 0 56px; text-align: center;
@@ -201,9 +206,10 @@
     .tile:active .go, .tile.in .go { background: var(--frost); border-color: var(--frost); color: var(--black-ice); }
     .tile.pale:active .tm::before, .tile.pale.in .tm::before { opacity: 0; }
     .tile.in .ds { opacity: 1; transform: none; }
+    .tile.strip.in .dsw { grid-template-rows: 1fr; }
   }
   @media (max-width: 379px) {
-    .tile .ds { font-size: 13px; }   /* small phones: two lines at most under the title */
+    .tile.cover .ds { font-size: 13px; }   /* small phones: two lines at most under the tile title */
     .tile .tt { letter-spacing: .14em; }   /* small phones: every title stays on one line */
   }
   @media (min-width: 900px) {
@@ -213,9 +219,10 @@
     .tile:hover .tm img, .tile:focus-visible .tm img { transform: scale(1.03); }
     .tile.pale:hover .tm::before, .tile.pale:focus-visible .tm::before { opacity: 0; }
     .tile:hover .ds, .tile:focus-visible .ds { opacity: 1; transform: none; }
+    .tile.strip:hover .dsw, .tile.strip:focus-visible .dsw { grid-template-rows: 1fr; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .tile .tm img, .tile .tm::after, .tile.pale .tm::before, .tile .tt, .tile .ds, .tile .go { transition: none; }
+    .tile .tm img, .tile .tm::after, .tile.pale .tm::before, .tile .tt, .tile .ds, .tile .go, .tile.strip .dsw { transition: none; }
   }
 
   /* partners: five equal 120 x 44 boxes, each mark contained, frost at .85; three columns at 390, one row of five on desktop */
