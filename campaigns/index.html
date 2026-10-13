@@ -182,17 +182,15 @@
   .tile.pale .tm::before { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
                            background: linear-gradient(180deg, rgba(11,14,20,0) 65%, rgba(11,14,20,.45) 100%); transition: opacity 250ms ease; }
   /* service strips (jobs 2026-10-13-012 and 013): the title sits bottom-left, 16 px in, 48 px clear of the arrow, at every
-     width, and stays put when lit. Under 900 px, lit, nothing is drawn over the photo but the frost edge and the filled
-     arrow (no gradient); the description opens below the strip, in the gap, Figtree 400 14 px slate, centred, its height
-     easing from 0 over 250 ms, and closes when the strip unlights. From 900 px, hover shows the description over the lit
-     gradient, centred above the title, 56 px from each side, as at c59d633, and the section never changes height.
-     The work tiles keep their on-photo description. */
+     width, and stays put when lit. Lit, at every width, nothing is drawn over the photo but the frost edge and the filled
+     arrow (no gradient). Under each strip a slot is always reserved at the description's height (11 px above two lines of
+     14 px Figtree 400), empty at rest; lit, the description fades in there in slate, centred, 250 ms, and fades out when
+     the strip unlights. Nothing on the page moves on hover, tap or unlight. The work tiles keep their on-photo description. */
   .tile.strip .tt { inset: auto 48px 16px 16px; display: block; padding: 0; text-align: left; }
   .tile.strip .tm::after { background: none; }
-  .tile.strip .dsw { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 250ms ease; }
-  .tile.strip .ds { position: static; overflow: hidden; min-height: 0; padding: 0; opacity: 1; transform: none;
+  .tile.strip .dsw { display: block; height: calc(11px + 2.9em); font-size: 14px; }   /* 11 px + two lines at 1.45 */
+  .tile.strip .ds { display: block; position: static; padding: 11px 16px 0; opacity: 0; transform: none;
                     font: 400 14px/1.45 var(--body); color: var(--slate); text-shadow: none; text-align: center; }
-  .tile.strip .ds > span { display: block; padding: 10px 16px 2px; }
   /* the description: hidden at rest, slides up 12 px into place when lit, centred, 56 px from each side, 16 px off the bottom
      on the tiles; on the strips it is stacked above the title (below) */
   .tile .ds { position: absolute; z-index: 2; left: 0; right: 0; bottom: 16px; padding: 0 56px; text-align: center;
@@ -208,7 +206,6 @@
     .tile:active .go, .tile.in .go { background: var(--frost); border-color: var(--frost); color: var(--black-ice); }
     .tile.pale:active .tm::before, .tile.pale.in .tm::before { opacity: 0; }
     .tile.in .ds { opacity: 1; transform: none; }
-    .tile.strip.in .dsw { grid-template-rows: 1fr; }
   }
   @media (max-width: 379px) {
     .tile.cover .ds { font-size: 13px; }   /* small phones: two lines at most under the tile title */
@@ -221,17 +218,9 @@
     .tile:hover .tm img, .tile:focus-visible .tm img { transform: scale(1.03); }
     .tile.pale:hover .tm::before, .tile.pale:focus-visible .tm::before { opacity: 0; }
     .tile:hover .ds, .tile:focus-visible .ds { opacity: 1; transform: none; }
-    /* strips from 900 px: the description over the photo, out of the flow, so hover changes nothing below */
-    .tile.strip .tm::after { background: linear-gradient(180deg, rgba(11,14,20,0) 60%, rgba(11,14,20,.6) 100%); }
-    .tile.strip.pale .tm::after { background: linear-gradient(180deg, rgba(11,14,20,0) 60%, rgba(11,14,20,.7) 100%); }
-    .tile.strip .dsw { display: block; position: absolute; z-index: 2; left: 0; right: 0; bottom: 46px; pointer-events: none; }
-    .tile.strip .ds { display: block; overflow: visible; padding: 0 56px; color: var(--frost); text-shadow: 0 2px 12px rgba(0,0,0,.6);
-                      opacity: 0; transform: translateY(12px); }
-    .tile.strip .ds > span { padding: 0; }
-    .tile.strip:hover .ds, .tile.strip:focus-visible .ds { opacity: 1; transform: none; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .tile .tm img, .tile .tm::after, .tile.pale .tm::before, .tile .tt, .tile .ds, .tile .go, .tile.strip .dsw { transition: none; }
+    .tile .tm img, .tile .tm::after, .tile.pale .tm::before, .tile .tt, .tile .ds, .tile .go { transition: none; }
   }
 
   /* partners: five equal 120 x 44 boxes, each mark contained, frost at .85; three columns at 390, one row of five on desktop */
