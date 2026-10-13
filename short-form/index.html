@@ -126,7 +126,7 @@
   .covers { display: grid; grid-template-columns: 1fr; gap: 16px; }
   .cover { text-decoration: none; }
   .cover .tm { aspect-ratio: 16 / 9; }
-  .cover .tt { font-size: 15px; }
+  .cover .tt { font-size: 17px; }
   /* work pages: the group name, its line, the way back */
   .work-head { padding: 28px 0 28px; }
   .work-head h1 { font-size: 34px; }
@@ -164,9 +164,8 @@
   .tile .tm { position: relative; display: block; overflow: hidden; background: var(--card); }
   .tile .tm img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 250ms ease; }
   .tile .tm::after { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; opacity: 0;
-                     background: linear-gradient(180deg, rgba(11,14,20,0) 60%, rgba(11,14,20,.6) 100%); transition: opacity 250ms ease; }
-  .tile .tm::before { content: ""; position: absolute; inset: 0; z-index: 3; pointer-events: none; opacity: 0;
-                      box-shadow: inset 0 0 0 1px rgba(234,242,247,.6); transition: opacity 250ms ease; }   /* the 1 px frost edge */
+                     background: linear-gradient(180deg, rgba(11,14,20,0) 60%, rgba(11,14,20,.6) 100%);
+                     box-shadow: inset 0 0 0 1px rgba(234,242,247,.6); transition: opacity 250ms ease; }   /* lit gradient and the 1 px frost edge */
   /* the arrow: a 30 px circle bottom-right, 14 px in (job 2026-10-13-009) */
   .tile .go { position: absolute; z-index: 3; right: 14px; bottom: 14px; width: 30px; height: 30px; border-radius: 50%;
               display: flex; align-items: center; justify-content: center; border: 1px solid rgba(234,242,247,.45);
@@ -179,10 +178,16 @@
               text-align: center; font-family: var(--body); font-weight: 700; line-height: 1.2; letter-spacing: .2em; text-transform: uppercase;
               color: rgba(232,237,243,.85); text-shadow: 0 2px 12px rgba(0,0,0,.6); transition: color 250ms ease; }   /* 48 px each side clears the arrow */
   /* light frames (03 sand, 05 pink): a soft rest gradient behind the title and arrow, gone when lit; the lit gradient goes to .7 */
-  .tile.pale .tt::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  .tile.pale .tm::before { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
                            background: linear-gradient(180deg, rgba(11,14,20,0) 65%, rgba(11,14,20,.45) 100%); transition: opacity 250ms ease; }
   .tile.pale .tm::after { background: linear-gradient(180deg, rgba(11,14,20,0) 60%, rgba(11,14,20,.7) 100%); }
-  /* the description: hidden at rest, slides up 12 px into place when lit, centred, 56 px from each side, 16 px off the bottom */
+  /* service strips (job 2026-10-13-012): the title sits bottom-left, 16 px in, 48 px clear of the arrow, at every width,
+     with the description stacked 10 px above it however many lines the title takes; the work tiles keep theirs centred */
+  .tile.strip .cap { position: absolute; z-index: 2; left: 0; right: 0; bottom: 16px; display: flex; flex-direction: column; }
+  .tile.strip .cap .tt { position: static; display: block; padding: 0 48px 0 16px; text-align: left; }
+  .tile.strip .cap .ds { position: static; margin-bottom: 10px; }
+  /* the description: hidden at rest, slides up 12 px into place when lit, centred, 56 px from each side, 16 px off the bottom
+     on the tiles; on the strips it is stacked above the title (below) */
   .tile .ds { position: absolute; z-index: 2; left: 0; right: 0; bottom: 16px; padding: 0 56px; text-align: center;
               font-size: 14px; line-height: 1.45; color: var(--frost); text-shadow: 0 2px 12px rgba(0,0,0,.6);
               opacity: 0; transform: translateY(12px); transition: opacity 250ms ease, transform 250ms ease; }
@@ -192,10 +197,9 @@
     .tile .ds { bottom: 16px; }      /* phones: the 56 px sides keep it clear of the arrow */
     .tile:active .tt, .tile.in .tt { color: var(--frost); }
     .tile:active .tm::after, .tile.in .tm::after { opacity: 1; }
-    .tile:active .tm::before, .tile.in .tm::before { opacity: 1; }
     .tile:active .tm img, .tile.in .tm img { transform: scale(1.03); }
     .tile:active .go, .tile.in .go { background: var(--frost); border-color: var(--frost); color: var(--black-ice); }
-    .tile.pale:active .tt::before, .tile.pale.in .tt::before { opacity: 0; }
+    .tile.pale:active .tm::before, .tile.pale.in .tm::before { opacity: 0; }
     .tile.in .ds { opacity: 1; transform: none; }
   }
   @media (max-width: 379px) {
@@ -205,14 +209,13 @@
   @media (min-width: 900px) {
     .tile:hover .tt, .tile:focus-visible .tt { color: var(--frost); }
     .tile:hover .tm::after, .tile:focus-visible .tm::after { opacity: 1; }
-    .tile:hover .tm::before, .tile:focus-visible .tm::before { opacity: 1; }
     .tile:hover .go, .tile:focus-visible .go { background: var(--frost); border-color: var(--frost); color: var(--black-ice); }
     .tile:hover .tm img, .tile:focus-visible .tm img { transform: scale(1.03); }
-    .tile.pale:hover .tt::before, .tile.pale:focus-visible .tt::before { opacity: 0; }
+    .tile.pale:hover .tm::before, .tile.pale:focus-visible .tm::before { opacity: 0; }
     .tile:hover .ds, .tile:focus-visible .ds { opacity: 1; transform: none; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .tile .tm img, .tile .tm::after, .tile .tm::before, .tile .tt, .tile .tt::before, .tile .ds, .tile .go { transition: none; }
+    .tile .tm img, .tile .tm::after, .tile.pale .tm::before, .tile .tt, .tile .ds, .tile .go { transition: none; }
   }
 
   /* partners: five equal 120 x 44 boxes, each mark contained, frost at .85; three columns at 390, one row of five on desktop */
