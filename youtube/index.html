@@ -182,9 +182,11 @@
   .tile.pale .tm::before { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
                            background: linear-gradient(180deg, rgba(11,14,20,0) 65%, rgba(11,14,20,.45) 100%); transition: opacity 250ms ease; }
   /* service strips (jobs 2026-10-13-012 and 013): the title sits bottom-left, 16 px in, 48 px clear of the arrow, at every
-     width, and stays put when lit. Lit, nothing is drawn over the photo but the frost edge and the filled arrow (no
-     gradient); the description opens below the strip, in the gap, Figtree 400 14 px slate, centred, its height easing
-     from 0 over 250 ms, and closes when the strip unlights. The work tiles keep their on-photo description. */
+     width, and stays put when lit. Under 900 px, lit, nothing is drawn over the photo but the frost edge and the filled
+     arrow (no gradient); the description opens below the strip, in the gap, Figtree 400 14 px slate, centred, its height
+     easing from 0 over 250 ms, and closes when the strip unlights. From 900 px, hover shows the description over the lit
+     gradient, centred above the title, 56 px from each side, as at c59d633, and the section never changes height.
+     The work tiles keep their on-photo description. */
   .tile.strip .tt { inset: auto 48px 16px 16px; display: block; padding: 0; text-align: left; }
   .tile.strip .tm::after { background: none; }
   .tile.strip .dsw { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 250ms ease; }
@@ -219,7 +221,14 @@
     .tile:hover .tm img, .tile:focus-visible .tm img { transform: scale(1.03); }
     .tile.pale:hover .tm::before, .tile.pale:focus-visible .tm::before { opacity: 0; }
     .tile:hover .ds, .tile:focus-visible .ds { opacity: 1; transform: none; }
-    .tile.strip:hover .dsw, .tile.strip:focus-visible .dsw { grid-template-rows: 1fr; }
+    /* strips from 900 px: the description over the photo, out of the flow, so hover changes nothing below */
+    .tile.strip .tm::after { background: linear-gradient(180deg, rgba(11,14,20,0) 60%, rgba(11,14,20,.6) 100%); }
+    .tile.strip.pale .tm::after { background: linear-gradient(180deg, rgba(11,14,20,0) 60%, rgba(11,14,20,.7) 100%); }
+    .tile.strip .dsw { display: block; position: absolute; z-index: 2; left: 0; right: 0; bottom: 46px; pointer-events: none; }
+    .tile.strip .ds { display: block; overflow: visible; padding: 0 56px; color: var(--frost); text-shadow: 0 2px 12px rgba(0,0,0,.6);
+                      opacity: 0; transform: translateY(12px); }
+    .tile.strip .ds > span { padding: 0; }
+    .tile.strip:hover .ds, .tile.strip:focus-visible .ds { opacity: 1; transform: none; }
   }
   @media (prefers-reduced-motion: reduce) {
     .tile .tm img, .tile .tm::after, .tile.pale .tm::before, .tile .tt, .tile .ds, .tile .go, .tile.strip .dsw { transition: none; }
