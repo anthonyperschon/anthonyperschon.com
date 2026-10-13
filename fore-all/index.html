@@ -128,15 +128,10 @@
   .card .d { display: block; font-size: 14px; line-height: 1.45; color: var(--slate); margin-top: 4px; }
   .card:focus-visible { outline: 2px solid var(--frost); outline-offset: 4px; }
   /* the home page's three cover tiles, one per group; the whole tile is the link */
-  .covers { display: grid; grid-template-columns: 1fr; gap: 16px; }
+  .covers { display: grid; grid-template-columns: 1fr; gap: 12px; }   /* 12 px like the strips (job 021); 16 px from 700 px, three across */
   .cover { text-decoration: none; }
   .cover .tm { aspect-ratio: 16 / 9; }
-  /* work tiles (job 2026-10-13-016): the title bottom-left like the strips, 16 px in, 48 px clear of the arrow, 17 px;
-     lit, the description slides up into place stacked 10 px above it (12 px clear of the letters), over the gradient,
-     however many lines the title takes */
-  .tile.cover .cap { position: absolute; z-index: 2; left: 0; right: 0; bottom: 16px; display: flex; flex-direction: column; }
-  .tile.cover .cap .tt { position: static; display: block; padding: 0 48px 0 16px; text-align: left; font-size: 17px; }
-  .tile.cover .cap .ds { position: static; margin-bottom: 10px; }
+  /* work tiles (job 2026-10-13-021): the strip structure and the strip rules below, description under the cover */
   /* work pages: the group name, its line, the way back */
   .work-head { padding: 28px 0 28px; }
   .work-head h1 { font-size: 34px; }
@@ -163,7 +158,7 @@
   /* services: five cover strips, 1920 x 820, 12px apart; the card colour until a photo lands */
   .svcs { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 4px; }
   .strip .tm { aspect-ratio: 1920 / 820; }
-  .strip .tt { font-size: 17px; }
+  .strip .tt, .cover .tt { font-size: 17px; }
 
   /* one title treatment for tiles and strips (K, job 2026-10-13-010; centred and the slide-up description, job 011):
      no darkening at rest, a small spaced Figtree title centred on both axes (no index numbers since job 014),
@@ -195,10 +190,10 @@
      arrow (no gradient). Under each strip a slot is always reserved at the description's height (11 px above two lines of
      14 px Figtree 400), empty at rest; lit, the description fades in there in slate, centred, 250 ms, and fades out when
      the strip unlights. Nothing on the page moves on hover, tap or unlight. The work tiles keep their on-photo description. */
-  .tile.strip .tt { inset: auto 48px 16px 16px; display: block; padding: 0; text-align: left; }
-  .tile.strip .tm::after { background: none; }
-  .tile.strip .dsw { display: block; height: calc(11px + 2.9em); font-size: 14px; }   /* 11 px + two lines at 1.45; from 900 px only (job 015) */
-  .tile.strip .ds { display: block; position: static; padding: 11px 16px 0; opacity: 0; transform: none;
+  :is(.tile.strip, .tile.cover) .tt { inset: auto 48px 16px 16px; display: block; padding: 0; text-align: left; }
+  :is(.tile.strip, .tile.cover) .tm::after { background: none; }
+  :is(.tile.strip, .tile.cover) .dsw { display: block; height: calc(11px + 2.9em); font-size: 14px; }   /* 11 px + two lines at 1.45; from 900 px only (job 015) */
+  :is(.tile.strip, .tile.cover) .ds { display: block; position: static; padding: 11px 16px 0; opacity: 0; transform: none;
                     font: 400 14px/1.45 var(--body); color: var(--slate); text-shadow: none; text-align: center; }
   /* the description: hidden at rest, slides up 12 px into place when lit, centred, 56 px from each side, 16 px off the bottom
      on the tiles; on the strips it is stacked above the title (below) */
@@ -217,13 +212,12 @@
     .tile.in .ds { opacity: 1; transform: none; }
     /* strips under 900 px (job 2026-10-13-015): no reserved slot, the rest gap is the 12 px grid gap; lit, the
        description opens below the strip, its height easing from 0 over 250 ms, and closes when the strip unlights */
-    .tile.strip .dsw { display: grid; grid-template-rows: 0fr; height: auto; transition: grid-template-rows 250ms ease; }
-    .tile.strip .ds { overflow: hidden; min-height: 0; padding: 0; opacity: 1; }
-    .tile.strip .ds > span { display: block; padding: 10px 16px 2px; }
-    .tile.strip.in .dsw { grid-template-rows: 1fr; }
+    :is(.tile.strip, .tile.cover) .dsw { display: grid; grid-template-rows: 0fr; height: auto; transition: grid-template-rows 250ms ease; }
+    :is(.tile.strip, .tile.cover) .ds { overflow: hidden; min-height: 0; padding: 0; opacity: 1; }
+    :is(.tile.strip, .tile.cover) .ds > span { display: block; padding: 10px 16px 2px; }
+    :is(.tile.strip, .tile.cover).in .dsw { grid-template-rows: 1fr; }
   }
   @media (max-width: 379px) {
-    .tile.cover .ds { font-size: 13px; }   /* small phones: two lines at most under the tile title */
     .tile .tt { letter-spacing: .14em; }   /* small phones: every title stays on one line */
   }
   @media (min-width: 900px) {
@@ -235,7 +229,7 @@
     .tile:hover .ds, .tile:focus-visible .ds { opacity: 1; transform: none; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .tile .tm img, .tile .tm::after, .tile.pale .tm::before, .tile .tt, .tile .ds, .tile .go, .tile.strip .dsw { transition: none; }
+    .tile .tm img, .tile .tm::after, .tile.pale .tm::before, .tile .tt, .tile .ds, .tile .go, :is(.tile.strip, .tile.cover) .dsw { transition: none; }
   }
 
   /* partners: five equal 120 x 44 boxes, each mark contained, frost at .85; three columns at 390, one row of five on desktop */
