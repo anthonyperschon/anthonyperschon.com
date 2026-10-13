@@ -187,7 +187,7 @@
      the strip unlights. Nothing on the page moves on hover, tap or unlight. The work tiles keep their on-photo description. */
   .tile.strip .tt { inset: auto 48px 16px 16px; display: block; padding: 0; text-align: left; }
   .tile.strip .tm::after { background: none; }
-  .tile.strip .dsw { display: block; height: calc(11px + 2.9em); font-size: 14px; }   /* 11 px + two lines at 1.45 */
+  .tile.strip .dsw { display: block; height: calc(11px + 2.9em); font-size: 14px; }   /* 11 px + two lines at 1.45; from 900 px only (job 015) */
   .tile.strip .ds { display: block; position: static; padding: 11px 16px 0; opacity: 0; transform: none;
                     font: 400 14px/1.45 var(--body); color: var(--slate); text-shadow: none; text-align: center; }
   /* the description: hidden at rest, slides up 12 px into place when lit, centred, 56 px from each side, 16 px off the bottom
@@ -206,6 +206,12 @@
     .tile.in .go { opacity: 1; pointer-events: auto; }   /* the 44 px target only exists while lit */
     .tile.pale:active .tm::before, .tile.pale.in .tm::before { opacity: 0; }
     .tile.in .ds { opacity: 1; transform: none; }
+    /* strips under 900 px (job 2026-10-13-015): no reserved slot, the rest gap is the 12 px grid gap; lit, the
+       description opens below the strip, its height easing from 0 over 250 ms, and closes when the strip unlights */
+    .tile.strip .dsw { display: grid; grid-template-rows: 0fr; height: auto; transition: grid-template-rows 250ms ease; }
+    .tile.strip .ds { overflow: hidden; min-height: 0; padding: 0; opacity: 1; }
+    .tile.strip .ds > span { display: block; padding: 10px 16px 2px; }
+    .tile.strip.in .dsw { grid-template-rows: 1fr; }
   }
   @media (max-width: 379px) {
     .tile.cover .ds { font-size: 13px; }   /* small phones: two lines at most under the tile title */
@@ -220,7 +226,7 @@
     .tile:hover .ds, .tile:focus-visible .ds { opacity: 1; transform: none; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .tile .tm img, .tile .tm::after, .tile.pale .tm::before, .tile .tt, .tile .ds, .tile .go { transition: none; }
+    .tile .tm img, .tile .tm::after, .tile.pale .tm::before, .tile .tt, .tile .ds, .tile .go, .tile.strip .dsw { transition: none; }
   }
 
   /* partners: five equal 120 x 44 boxes, each mark contained, frost at .85; three columns at 390, one row of five on desktop */
