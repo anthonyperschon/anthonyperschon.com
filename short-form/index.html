@@ -126,7 +126,12 @@
   .covers { display: grid; grid-template-columns: 1fr; gap: 16px; }
   .cover { text-decoration: none; }
   .cover .tm { aspect-ratio: 16 / 9; }
-  .cover .tt { font-size: 19px; }
+  /* work tiles (job 2026-10-13-016): the title bottom-left like the strips, 16 px in, 48 px clear of the arrow, 17 px;
+     lit, the description slides up into place stacked 10 px above it (12 px clear of the letters), over the gradient,
+     however many lines the title takes */
+  .tile.cover .cap { position: absolute; z-index: 2; left: 0; right: 0; bottom: 16px; display: flex; flex-direction: column; }
+  .tile.cover .cap .tt { position: static; display: block; padding: 0 48px 0 16px; text-align: left; font-size: 17px; }
+  .tile.cover .cap .ds { position: static; margin-bottom: 10px; }
   /* work pages: the group name, its line, the way back */
   .work-head { padding: 28px 0 28px; }
   .work-head h1 { font-size: 34px; }
@@ -198,7 +203,6 @@
   .tile:focus-visible { outline: 2px solid var(--frost); outline-offset: 4px; }
   @media (max-width: 899px) {
     .tile .tt { padding: 0 16px; }   /* phones: a centred title never reaches the arrow row, so 16 px keeps it on one line */
-    .tile .ds { bottom: 16px; }      /* phones: the 56 px sides keep it clear of the arrow */
     .tile:active .tt, .tile.in .tt { color: var(--frost); }
     .tile:active .tm::after, .tile.in .tm::after { opacity: 1; }
     .tile:active .tm img, .tile.in .tm img { transform: scale(1.03); }
