@@ -57,6 +57,9 @@
   .menu nav { display: flex; flex-direction: column; gap: 22px; margin-top: 96px; }
   .menu nav a { font: 800 40px/1 var(--display); text-transform: uppercase; color: var(--frost); text-decoration: none; }
   html.menu-open, html.menu-open body { overflow: hidden; }
+  /* the plain hero rules sit ahead of the 900 px query so HERO_POS_DESK wins at 900 and up (13 Oct 2026) */
+  .hero .pic { position: absolute; inset: 0; }
+  .hero .pic img { width: 100%; height: 100%; object-fit: cover; object-position: 53% 30%; }
   @media (min-width: 900px) {
     .hero .herobtn a.btn { flex: none; height: 52px; padding: 0 26px; }
     .hero .pic img { object-position: 53% 46%; }
@@ -67,8 +70,6 @@
     .tabs-nav a { font-size: 14px; }
     .menu-btn, .menu { display: none !important; }
   }
-  .hero .pic { position: absolute; inset: 0; }
-  .hero .pic img { width: 100%; height: 100%; object-fit: cover; object-position: 53% 30%; }
   /* hero rebuild (12 Oct 2026): the first screen is the photo. A top scrim for the header, a fade to the page ground over
      the bottom 35 percent, and two text pieces bottom-left: the headline and one label line. The rest waits in the intro. */
   .hero .pic::after { content: ""; position: absolute; inset: 0;
@@ -162,7 +163,7 @@
   .svcs { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 4px; }
   .strip { position: relative; aspect-ratio: 1920 / 820; overflow: hidden; background: var(--card); }
   .strip img { width: 100%; height: 100%; object-fit: cover; }
-  .strip::after { content: ""; position: absolute; inset: 0; background: rgba(7,12,18,.45); }
+  .strip::after { content: ""; position: absolute; inset: 0; background: rgba(7,12,18,var(--dim, .45)); }
   .strip .sv { position: absolute; z-index: 1; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
                padding: 0 20px; text-align: center; }
   .strip .sn { display: block; font: 800 24px/1 var(--display); text-transform: uppercase; color: var(--frost); }
