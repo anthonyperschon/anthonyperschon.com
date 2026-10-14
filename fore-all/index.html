@@ -52,7 +52,9 @@
   .tabs-nav a:hover, .tabs-nav a:focus-visible { color: var(--frost); }
   /* phone layout pass (12 Oct 2026): under 900 the header is one row, the wordmark and MENU; MENU opens a full-screen
      panel, the four links stacked large, CLOSE top right. 900 and up: the four tabs inline, no MENU. */
-  .top { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding-top: 20px; padding-bottom: 20px; }
+  /* .wrap.top, not .top (job 2026-10-14-009): the 700 px ".wrap { padding: 0 32px }" comes later and zeroed this padding
+     on the three work pages from 700 px, so their header sat on the top edge */
+  .wrap.top { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding-top: 20px; padding-bottom: 20px; }
   .tabs-nav { display: none; }
   .menu-btn, .menu-close { background: none; border: 0; padding: 6px 0; cursor: pointer; font: 600 12px/1 var(--display); letter-spacing: .16em;
                            text-transform: uppercase; color: var(--slate); }
