@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://anthonyperschon.com/sitemap.xml
