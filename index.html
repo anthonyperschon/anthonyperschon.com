@@ -184,12 +184,18 @@
   /* services: five cover strips, 1920 x 820, each with its line under it; the card colour until a photo lands */
   .svcs { display: grid; grid-template-columns: 1fr; gap: 24px; margin-top: 4px; }
   .strip .tm { aspect-ratio: 1920 / 820; }
+  .strip.full .tm { aspect-ratio: 16 / 9; }   /* the whole frame, no crop (Retainer, job 2026-10-16-004) */
 
   /* tiles and strips (job 2026-10-15-011, 5 and 6), one rule at every width: the title on the photo bottom-left, the arrow
      bottom-right at rest, no gradient; under the photo, on the page ground, the line (and the proof line on a cover),
-     always shown. One tap opens the page. From 900 px a hover lifts the photo and draws the frost edge. */
+     always shown. One tap opens the page. From 900 px a hover lifts the photo and draws the frost edge. The only thing drawn
+     on the photo is the title band (job 2026-10-16-004). */
   .tile { display: block; position: relative; color: inherit; text-decoration: none; -webkit-tap-highlight-color: transparent; }
   .tile .tm { position: relative; display: block; overflow: hidden; background: var(--card); }
+  /* the title band (job 2026-10-16-004): page ground to transparent over the bottom 40 percent, behind every cover and
+     strip title, so no title sits bare on a photo; the arrow and title sit above it */
+  .tile .tm::before { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 40%; z-index: 1; pointer-events: none;
+                      background: linear-gradient(0deg, var(--black-ice) 0%, rgba(7,12,18,0) 100%); }
   .tile .tm picture, .tile .tm img { display: block; width: 100%; height: 100%; }
   .tile .tm img { object-fit: cover; transition: transform 250ms ease; }
   .tile .tm::after { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; opacity: 0;
@@ -381,8 +387,8 @@
         <span class="tm"><picture><source type="image/webp" srcset="/assets/img/service-02-640.webp 640w, /assets/img/service-02-960.webp 960w, /assets/img/service-02-1280.webp 1280w, /assets/img/service-02-1920.webp 1920w" sizes="(min-width: 1080px) 1016px, calc(100vw - 36px)"><img src="/assets/img/service-02-1920.jpg" srcset="/assets/img/service-02-640.jpg 640w, /assets/img/service-02-960.jpg 960w, /assets/img/service-02-1280.jpg 1280w, /assets/img/service-02-1920.jpg 1920w" sizes="(min-width: 1080px) 1016px, calc(100vw - 36px)" alt="" width="1920" height="820" loading="lazy"></picture><span class="tt">Social Partnerships</span><span class="go" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9 9 3M4 3h5v5"/></svg></span></span>
         <span class="ds"><span class="dl">Your product inside my training and city routine, never a scripted read.</span></span>
       </a>
-      <a class="tile strip" href="/youtube/">
-        <span class="tm"><picture><source type="image/webp" srcset="/assets/img/service-04-640.webp 640w, /assets/img/service-04-960.webp 960w, /assets/img/service-04-1280.webp 1280w, /assets/img/service-04-1920.webp 1920w" sizes="(min-width: 1080px) 1016px, calc(100vw - 36px)"><img src="/assets/img/service-04-1920.jpg" srcset="/assets/img/service-04-640.jpg 640w, /assets/img/service-04-960.jpg 960w, /assets/img/service-04-1280.jpg 1280w, /assets/img/service-04-1920.jpg 1920w" sizes="(min-width: 1080px) 1016px, calc(100vw - 36px)" alt="" width="1920" height="820" loading="lazy"></picture><span class="tt">Retainer Partnerships</span><span class="go" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9 9 3M4 3h5v5"/></svg></span></span>
+      <a class="tile strip full" href="/youtube/">
+        <span class="tm"><picture><source type="image/webp" srcset="/assets/img/service-04-640.webp 640w, /assets/img/service-04-960.webp 960w, /assets/img/service-04-1280.webp 1280w, /assets/img/service-04-1920.webp 1920w" sizes="(min-width: 1080px) 1016px, calc(100vw - 36px)"><img src="/assets/img/service-04-1920.jpg" srcset="/assets/img/service-04-640.jpg 640w, /assets/img/service-04-960.jpg 960w, /assets/img/service-04-1280.jpg 1280w, /assets/img/service-04-1920.jpg 1920w" sizes="(min-width: 1080px) 1016px, calc(100vw - 36px)" alt="" width="1920" height="1080" loading="lazy"></picture><span class="tt">Retainer Partnerships</span><span class="go" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9 9 3M4 3h5v5"/></svg></span></span>
         <span class="ds"><span class="dl">Monthly integrations across YouTube, Reels and TikTok.</span></span>
       </a>
       <a class="tile strip pale" href="/campaigns/">
