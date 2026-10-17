@@ -275,7 +275,14 @@
   .rpill input { position: absolute; opacity: 0; width: 1px; height: 1px; }
   .rpill .rl { display: block; font: 600 14px/1.2 var(--display); letter-spacing: .12em; text-transform: uppercase; color: var(--frost); }
   .rpill .rd { display: block; font-size: 14px; line-height: 1.4; color: var(--slate); margin-top: 4px; }
-  .rpill:has(input:checked), .rpill[aria-checked="true"] { border: 2px solid var(--brand); padding: 11px 13px; }
+  .rpill:has(input:checked), .rpill[aria-checked="true"] { border: 2px solid var(--brand); padding: 11px 13px; background: #06485c; }
+  .rpill:has(input:checked) .rl, .rpill:has(input:checked) .rd, .rpill[aria-checked="true"] .rl, .rpill[aria-checked="true"] .rd { color: #fff; }
+  /* Safari and Chrome autofill keep the page ground and the body text colour (job 049) */
+  #brief input:-webkit-autofill, #brief select:-webkit-autofill, #brief textarea:-webkit-autofill {
+      -webkit-box-shadow: 0 0 0 1000px var(--black-ice) inset; box-shadow: 0 0 0 1000px var(--black-ice) inset;
+      -webkit-text-fill-color: var(--frost); caret-color: var(--frost); transition: background-color 9999s ease-out 0s; }
+  #brief input:-webkit-autofill:focus, #brief textarea:-webkit-autofill:focus {
+      -webkit-box-shadow: 0 0 0 1000px var(--black-ice) inset, 0 1px 0 0 var(--brand); box-shadow: 0 0 0 1000px var(--black-ice) inset, 0 1px 0 0 var(--brand); }
   .rpill:has(input:focus-visible), .rpill:focus-visible { outline: 2px solid var(--frost); outline-offset: 2px; }
   .fsend button.btn { display: inline-flex; align-items: center; justify-content: center; height: 48px; padding: 0 22px; border: 0; border-radius: 4px;
       background: var(--brand); color: var(--frost); font: 600 15px/1 var(--display); letter-spacing: .12em; text-transform: uppercase; cursor: pointer; }

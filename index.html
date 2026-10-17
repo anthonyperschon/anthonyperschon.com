@@ -275,7 +275,14 @@
   .rpill input { position: absolute; opacity: 0; width: 1px; height: 1px; }
   .rpill .rl { display: block; font: 600 14px/1.2 var(--display); letter-spacing: .12em; text-transform: uppercase; color: var(--frost); }
   .rpill .rd { display: block; font-size: 14px; line-height: 1.4; color: var(--slate); margin-top: 4px; }
-  .rpill:has(input:checked), .rpill[aria-checked="true"] { border: 2px solid var(--brand); padding: 11px 13px; }
+  .rpill:has(input:checked), .rpill[aria-checked="true"] { border: 2px solid var(--brand); padding: 11px 13px; background: #06485c; }
+  .rpill:has(input:checked) .rl, .rpill:has(input:checked) .rd, .rpill[aria-checked="true"] .rl, .rpill[aria-checked="true"] .rd { color: #fff; }
+  /* Safari and Chrome autofill keep the page ground and the body text colour (job 049) */
+  #brief input:-webkit-autofill, #brief select:-webkit-autofill, #brief textarea:-webkit-autofill {
+      -webkit-box-shadow: 0 0 0 1000px var(--black-ice) inset; box-shadow: 0 0 0 1000px var(--black-ice) inset;
+      -webkit-text-fill-color: var(--frost); caret-color: var(--frost); transition: background-color 9999s ease-out 0s; }
+  #brief input:-webkit-autofill:focus, #brief textarea:-webkit-autofill:focus {
+      -webkit-box-shadow: 0 0 0 1000px var(--black-ice) inset, 0 1px 0 0 var(--brand); box-shadow: 0 0 0 1000px var(--black-ice) inset, 0 1px 0 0 var(--brand); }
   .rpill:has(input:focus-visible), .rpill:focus-visible { outline: 2px solid var(--frost); outline-offset: 2px; }
   .fsend button.btn { display: inline-flex; align-items: center; justify-content: center; height: 48px; padding: 0 22px; border: 0; border-radius: 4px;
       background: var(--brand); color: var(--frost); font: 600 15px/1 var(--display); letter-spacing: .12em; text-transform: uppercase; cursor: pointer; }
@@ -434,7 +441,7 @@
         <div class="nvs"><div class="stat"><b>409,000</b><span>followers</span></div><div class="stat"><b>572,100</b><span>video views</span></div></div>
       </div>
     </div>
-    <p class="small">Views are each platform's own 28 to 30 day window. Pulled 1 October 2026.</p>
+    <p class="small">Views are each platform's own 28 to 30 day window. Pulled October 1, 2026.</p>
     <p class="aud">84 percent men, weighted across all three platforms. 18 to 34 on every platform. United States first on every platform.</p>
     <p class="livelink"><a href="https://cjet.me/anthonyperschon" target="_blank" rel="noopener">Live stats</a></p>
   </section>
@@ -488,11 +495,11 @@
         <label class="fld"><span class="flabel">Work email (required)</span><input type="email" name="email" id="f-email" required autocomplete="email"></label>
         <fieldset class="routes" role="radiogroup" aria-label="What are we making">
           <legend class="flabel">What are we making</legend>
-          <label class="rpill"><input type="radio" name="route" value="youtube-integration" required><span class="rl">YouTube integration</span><span class="rd">Long-form with your product inside the day, plus three short cuts.</span></label>
-          <label class="rpill"><input type="radio" name="route" value="short-form" required><span class="rl">Short form</span><span class="rd">Reels and TikToks from one shoot.</span></label>
-          <label class="rpill"><input type="radio" name="route" value="campaign" required><span class="rl">Campaign</span><span class="rd">Shot and cut for your own channels.</span></label>
-          <label class="rpill"><input type="radio" name="route" value="retainer" required><span class="rl">Retainer</span><span class="rd">Monthly integrations across YouTube, Reels and TikTok.</span></label>
-          <label class="rpill"><input type="radio" name="route" value="event" required><span class="rl">Event</span><span class="rd">Launches and pop-ups, same-day cut.</span></label>
+          <label class="rpill"><input type="radio" name="route" value="YouTube integration" data-route="youtube-integration" required><span class="rl">YouTube integration</span><span class="rd">Long-form with your product inside the day, plus three short cuts.</span></label>
+          <label class="rpill"><input type="radio" name="route" value="Short form" data-route="short-form" required><span class="rl">Short form</span><span class="rd">Reels and TikToks from one shoot.</span></label>
+          <label class="rpill"><input type="radio" name="route" value="Campaign" data-route="campaign" required><span class="rl">Campaign</span><span class="rd">Shot and cut for your own channels.</span></label>
+          <label class="rpill"><input type="radio" name="route" value="Retainer" data-route="retainer" required><span class="rl">Retainer</span><span class="rd">Monthly integrations across YouTube, Reels and TikTok.</span></label>
+          <label class="rpill"><input type="radio" name="route" value="Event" data-route="event" required><span class="rl">Event</span><span class="rd">Launches and pop-ups, same-day cut.</span></label>
         </fieldset>
         <p class="rnote" id="route-note" aria-live="polite">Pick one; you can say more in the brief.</p>
         <label class="fld"><span class="flabel">Product</span><input type="text" name="product" placeholder="What we'd be filming"></label>
@@ -567,7 +574,7 @@
       });
     });
     var r = q.get("route");
-    if (r) { var pick = form.querySelector('input[name="route"][value="' + r + '"]'); if (pick) pick.checked = true; }
+    if (r) { var pick = form.querySelector('input[name="route"][data-route="' + r + '"]'); if (pick) pick.checked = true; }
     sync();
     function subject() { subj.value = brand.value.trim() ? "Brief from " + brand.value.trim() : "Brief from the site"; }
     brand.addEventListener("blur", subject);
