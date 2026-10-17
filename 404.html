@@ -153,14 +153,17 @@
   .card .d { font-size: 14px; line-height: 1.45; color: var(--slate); margin-top: 4px; }
   .card .d a { color: #c9d6df; text-decoration: underline; text-decoration-color: rgba(234,242,247,.35); text-underline-offset: 3px; }
   .card a:focus-visible { outline: 2px solid var(--frost); outline-offset: 4px; }
+  .card .s { font-size: 14px; line-height: 1.45; color: #c9d6df; margin-top: 4px; }   /* the YouTube description (job 2026-10-17-015) */
+  .wrap > .rowhead { margin-top: 8px; }
   /* the counts as ghost buttons (job 2026-10-16-044): 1 px accent border, no fill, 13 px label, square corners, the
      primary button's height, 8 px apart, left-aligned; hover fills with the accent; at 390 they wrap onto their own lines */
-  .cbtns { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .cbtns { display: flex; flex-wrap: wrap; gap: 8px; }
   .wrap > .tiles { margin-bottom: 56px; }   /* the cards' buttons clear the next section's rule (job 044) */
   .wrap > .tiles.noted { margin-bottom: 44px; }
-  a.btn.cbtn { height: 48px; padding: 0 16px; border-radius: 0; background: transparent; border: 1px solid #3a7590; color: var(--frost);
-               font-size: 13px; letter-spacing: .1em; }   /* the accent lifted for contrast (job 046) */
-  a.btn.cbtn:hover, a.btn.cbtn:focus-visible { background: #06485c; }
+  /* the count pill, one rule set on every page (job 2026-10-17-015) */
+  a.btn.cbtn { height: 40px; padding: 0 14px; border-radius: 0; background: transparent; border: 1px solid rgb(58,117,144); color: var(--frost);
+               font: 600 12px/1 var(--display); letter-spacing: .12em; text-transform: uppercase; }
+  a.btn.cbtn:hover, a.btn.cbtn:focus-visible { background: var(--brand); border-color: var(--brand); }
   /* 6: each card a flex column, the buttons on margin-top auto, so a row's buttons line up when a title wraps (job 046) */
   .card { display: flex; flex-direction: column; }
   .card .cbtns { margin-top: auto; padding-top: 12px; }
@@ -240,6 +243,15 @@
   .logos { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 8px; align-items: center; justify-items: center; }
   .lbox { display: flex; align-items: center; justify-content: center; width: 100%; max-width: 120px; aspect-ratio: 120 / 44; }
   .lbox img { width: 100%; height: 100%; object-fit: contain; opacity: .85; }
+  /* one line under each mark, the tile .ds style, centred (job 2026-10-17-015) */
+  .partner { display: flex; flex-direction: column; align-items: center; width: 100%; }
+  .partner .ds { display: block; padding: 10px 2px 0; font: 400 14px/1.45 var(--body); color: var(--slate); text-align: center; max-width: 190px; }
+  .logos { align-items: start; }
+  /* the audience panel under The numbers (job 2026-10-17-015), the platform rows' style */
+  .audh { font: 600 12px/1.2 var(--display); letter-spacing: .16em; text-transform: uppercase; color: var(--slate); margin-top: 36px; padding-bottom: 10px; border-bottom: 1px solid var(--line); }
+  .nkl { display: inline-flex; align-items: center; gap: 8px; }
+  .nkl svg { color: var(--frost); flex: none; }
+  .nvs.aud3 { grid-template-columns: 1fr 1fr; }
 
   /* contact and footer (job 2026-10-15-011, 1, 7 and 15): the email underlined in brand with Live stats under it, no
      phone and no button; the footer has the wordmark, the plain email and the three icons, right-aligned from 700 px and
@@ -345,7 +357,8 @@
     .nv b { font-size: 40px; }
     .nvs { grid-template-columns: repeat(2, minmax(0, 260px)); }
     .logos { display: flex; justify-content: space-between; gap: 24px; }
-    .lbox { flex: 0 0 120px; }
+    .partner { flex: 1 1 0; min-width: 0; }
+    .nvs.aud3 { grid-template-columns: repeat(4, minmax(0, 220px)); }
     .contact a.mailbtn { width: auto; padding: 0 28px; }
     footer { flex-direction: row; align-items: center; gap: 24px; }
     footer .icons { margin-left: auto; }
