@@ -285,6 +285,16 @@
   .ferr { font-size: 15px; color: #f2c6c6; }
   .ferr a { color: var(--frost); }
   @media (min-width: 700px) { .frow.two { grid-template-columns: 1fr 1fr; gap: 28px; } }
+  /* under 768 px (job 2026-10-16-048): the route cards are compact two-column pills, label only, 48 px tall, 12 px apart;
+     the fifth sits alone at one column's width; the chosen route's line shows once under the group. 768 and up as before. */
+  .rnote { display: none; }
+  @media (max-width: 767px) {
+    .routes { grid-template-columns: 1fr 1fr; gap: 12px; }
+    .rpill { display: flex; align-items: center; height: 48px; padding: 0 14px; }
+    .rpill .rd { display: none; }
+    .rpill:has(input:checked), .rpill[aria-checked="true"] { padding: 0 13px; }
+    .rnote { display: block; font-size: 14px; line-height: 1.4; color: var(--slate); margin-top: -10px; }
+  }
   @media (min-width: 900px) { .wwm-grid { grid-template-columns: 1fr 1.6fr; gap: 56px; } .routes { grid-template-columns: 1fr 1fr; } }
   .contact p.based { margin: 0 0 18px; color: #c9d6df; }
   .contact a.mailbtn { width: 100%; text-transform: none; letter-spacing: .04em; font-size: 16px; padding: 0 16px; }
@@ -484,6 +494,7 @@
           <label class="rpill"><input type="radio" name="route" value="retainer" required><span class="rl">Retainer</span><span class="rd">Monthly integrations across YouTube, Reels and TikTok.</span></label>
           <label class="rpill"><input type="radio" name="route" value="event" required><span class="rl">Event</span><span class="rd">Launches and pop-ups, same-day cut.</span></label>
         </fieldset>
+        <p class="rnote" id="route-note" aria-live="polite">Pick one; you can say more in the brief.</p>
         <label class="fld"><span class="flabel">Product</span><input type="text" name="product" placeholder="What we'd be filming"></label>
         <label class="fld"><span class="flabel">Usage</span><select name="usage"><option value="" disabled selected>Select</option><option value="Organic only">Organic only</option><option value="Paid media too">Paid media too</option><option value="Not sure">Not sure</option></select></label>
         <div class="frow two">
@@ -530,8 +541,11 @@
     if (q.get("sent") === "1") { sent(); return; }
     var subj = document.getElementById("f-subject"), brand = document.getElementById("f-brand");
     var cards = Array.prototype.slice.call(form.querySelectorAll(".rpill"));
+    var note = document.getElementById("route-note"), noteDefault = note ? note.textContent : "";
     function sync() {
       var any = cards.some(function (c) { return c.querySelector("input").checked; });
+      var on = cards.filter(function (c) { return c.querySelector("input").checked; })[0];
+      if (note) note.textContent = on ? on.querySelector(".rd").textContent : noteDefault;
       cards.forEach(function (c, i) {
         var on = c.querySelector("input").checked;
         c.setAttribute("aria-checked", on ? "true" : "false");

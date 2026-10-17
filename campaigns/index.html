@@ -285,6 +285,16 @@
   .ferr { font-size: 15px; color: #f2c6c6; }
   .ferr a { color: var(--frost); }
   @media (min-width: 700px) { .frow.two { grid-template-columns: 1fr 1fr; gap: 28px; } }
+  /* under 768 px (job 2026-10-16-048): the route cards are compact two-column pills, label only, 48 px tall, 12 px apart;
+     the fifth sits alone at one column's width; the chosen route's line shows once under the group. 768 and up as before. */
+  .rnote { display: none; }
+  @media (max-width: 767px) {
+    .routes { grid-template-columns: 1fr 1fr; gap: 12px; }
+    .rpill { display: flex; align-items: center; height: 48px; padding: 0 14px; }
+    .rpill .rd { display: none; }
+    .rpill:has(input:checked), .rpill[aria-checked="true"] { padding: 0 13px; }
+    .rnote { display: block; font-size: 14px; line-height: 1.4; color: var(--slate); margin-top: -10px; }
+  }
   @media (min-width: 900px) { .wwm-grid { grid-template-columns: 1fr 1.6fr; gap: 56px; } .routes { grid-template-columns: 1fr 1fr; } }
   .contact p.based { margin: 0 0 18px; color: #c9d6df; }
   .contact a.mailbtn { width: 100%; text-transform: none; letter-spacing: .04em; font-size: 16px; padding: 0 16px; }
