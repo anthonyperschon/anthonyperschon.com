@@ -153,8 +153,19 @@
   .card .d { font-size: 14px; line-height: 1.45; color: var(--slate); margin-top: 4px; }
   .card .d a { color: #c9d6df; text-decoration: underline; text-decoration-color: rgba(234,242,247,.35); text-underline-offset: 3px; }
   .card a:focus-visible { outline: 2px solid var(--frost); outline-offset: 4px; }
-  .play { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; }
-  .play svg { width: 56px; height: 56px; opacity: .7; filter: drop-shadow(0 2px 8px rgba(0,0,0,.45)); }
+  /* the counts as ghost buttons (job 2026-10-16-044): 1 px accent border, no fill, 13 px label, square corners, the
+     primary button's height, 8 px apart, left-aligned; hover fills with the accent; at 390 they wrap onto their own lines */
+  .cbtns { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .wrap > .tiles { margin-bottom: 56px; }   /* the cards' buttons clear the next section's rule (job 044) */
+  .wrap > .tiles.noted { margin-bottom: 44px; }
+  a.btn.cbtn { height: 48px; padding: 0 16px; border-radius: 0; background: transparent; border: 1px solid #3a7590; color: var(--frost);
+               font-size: 13px; letter-spacing: .1em; }   /* the accent lifted for contrast (job 046) */
+  a.btn.cbtn:hover, a.btn.cbtn:focus-visible { background: #06485c; }
+  /* 6: each card a flex column, the buttons on margin-top auto, so a row's buttons line up when a title wraps (job 046) */
+  .card { display: flex; flex-direction: column; }
+  .card .cbtns { margin-top: auto; padding-top: 12px; }
+  .countnote { font-size: 13px; color: var(--slate); margin: -32px 0 56px; padding-top: 14px; border-top: 1px solid var(--line); }
+  .case-note { margin: 18px 0 0; }
   /* the home page's three cover tiles, one per group; the whole tile is the link */
   .covers { display: grid; grid-template-columns: 1fr; gap: 24px; }
   .cover .tm { aspect-ratio: 16 / 9; }
@@ -224,15 +235,57 @@
   @media (prefers-reduced-motion: reduce) { .tile .tm img, .tile .tm::after { transition: none; } }
 
   /* partners: five equal 120 x 44 boxes, each mark contained, frost at .85; three columns at 390, one row of five on desktop */
-  .logos { display: flex; flex-wrap: wrap; justify-content: center; gap: 22px 12px; margin-top: 8px; }   /* three per row at 390, the last row centred */
-  .lbox { display: flex; align-items: center; justify-content: center; flex: 0 0 calc((100% - 24px) / 3); max-width: 120px; aspect-ratio: 120 / 44; }
+  /* partners: each mark contained in a 120 x 44 box (the 15 Oct sizing, restored in job 047); at 390 a two-column grid
+     with 24 px gutters, inside the column (job 046) */
+  .logos { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 8px; align-items: center; justify-items: center; }
+  .lbox { display: flex; align-items: center; justify-content: center; width: 100%; max-width: 120px; aspect-ratio: 120 / 44; }
   .lbox img { width: 100%; height: 100%; object-fit: contain; opacity: .85; }
 
   /* contact and footer (job 2026-10-15-011, 1, 7 and 15): the email underlined in brand with Live stats under it, no
      phone and no button; the footer has the wordmark, the plain email and the three icons, right-aligned from 700 px and
      under the email on a phone */
   /* job 2026-10-15-017: one button with the prefilled mailto, the address in plain text under it, the reply line */
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  section[id] { scroll-margin-top: 16px; }
   .contact p { margin-top: 12px; }
+  .contact p.btnrow { margin-top: 20px; }
+
+  /* WORK WITH ME (job 2026-10-16-044): the Services rhythm; copy left and the form right from 900 px, one column below.
+     Inputs are an underline only: 1 px slate at rest, accent on focus, no boxes. The route pills are square, a line
+     under the label; the chosen one gets a 2 px accent border and no fill. */
+  .wwm-copy p { font-size: 17px; line-height: 1.5; color: #c9d6df; }
+  .wwm-grid { display: grid; grid-template-columns: 1fr; gap: 28px; }
+  #brief { display: grid; gap: 22px; }
+  .frow.two { display: grid; grid-template-columns: 1fr; gap: 22px; }
+  .fld { display: block; }
+  .flabel { display: block; font: 600 12px/1.2 var(--display); letter-spacing: .16em; text-transform: uppercase; color: var(--slate); margin-bottom: 8px; padding: 0; }
+  #brief input[type=text], #brief input[type=email], #brief select, #brief textarea { display: block; width: 100%; background: transparent;
+      border: 0; border-bottom: 1px solid var(--slate); border-radius: 0; color: var(--frost); font: 400 16px/1.4 var(--body); padding: 8px 0;
+      -webkit-appearance: none; appearance: none; }
+  #brief select { background-image: linear-gradient(45deg, transparent 50%, var(--slate) 50%), linear-gradient(135deg, var(--slate) 50%, transparent 50%);
+      background-position: right 6px top 55%, right 0 top 55%; background-size: 6px 6px; background-repeat: no-repeat; padding-right: 20px; }
+  #brief select option { background: var(--deep-water); color: var(--frost); }
+  #brief textarea { resize: none; min-height: 120px; }
+  #brief input:focus, #brief select:focus, #brief textarea:focus { outline: none; border-bottom-color: var(--brand); box-shadow: 0 1px 0 0 var(--brand); }
+  #brief ::placeholder { color: rgba(147,164,179,.7); }
+  .routes { border: 0; display: grid; grid-template-columns: 1fr; gap: 10px; }
+  .routes legend { margin-bottom: 8px; }
+  .rpill { position: relative; display: block; padding: 12px 14px; border: 1px solid var(--line); cursor: pointer; }
+  .rpill input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  .rpill .rl { display: block; font: 600 14px/1.2 var(--display); letter-spacing: .12em; text-transform: uppercase; color: var(--frost); }
+  .rpill .rd { display: block; font-size: 14px; line-height: 1.4; color: var(--slate); margin-top: 4px; }
+  .rpill:has(input:checked), .rpill[aria-checked="true"] { border: 2px solid var(--brand); padding: 11px 13px; }
+  .rpill:has(input:focus-visible), .rpill:focus-visible { outline: 2px solid var(--frost); outline-offset: 2px; }
+  .fsend button.btn { display: inline-flex; align-items: center; justify-content: center; height: 48px; padding: 0 22px; border: 0; border-radius: 4px;
+      background: var(--brand); color: var(--frost); font: 600 15px/1 var(--display); letter-spacing: .12em; text-transform: uppercase; cursor: pointer; }
+  .fsend button.btn:disabled { opacity: .6; cursor: default; }
+  .hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+  .sent { font-size: 17px; line-height: 1.5; color: var(--frost); }
+  .ferr { font-size: 15px; color: #f2c6c6; }
+  .ferr a { color: var(--frost); }
+  @media (min-width: 700px) { .frow.two { grid-template-columns: 1fr 1fr; gap: 28px; } }
+  @media (min-width: 900px) { .wwm-grid { grid-template-columns: 1fr 1.6fr; gap: 56px; } .routes { grid-template-columns: 1fr 1fr; } }
   .contact p.based { margin: 0 0 18px; color: #c9d6df; }
   .contact a.mailbtn { width: 100%; text-transform: none; letter-spacing: .04em; font-size: 16px; padding: 0 16px; }
   .contact p.addr { font-size: 15px; color: var(--frost); }
@@ -254,8 +307,8 @@
   .arrows { display: none; gap: 8px; padding-bottom: 12px; }
   .arrows button { width: 40px; height: 40px; border-radius: 50%; border: 1px solid rgba(234,242,247,.6); background: none; color: var(--frost);
                    display: flex; align-items: center; justify-content: center; cursor: pointer; }
-  .snap { display: grid; grid-auto-flow: column; grid-auto-columns: 72%; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory;
-          overscroll-behavior-x: contain; scrollbar-width: none; padding-bottom: 4px; }
+  .snap { display: grid; grid-auto-flow: column; grid-auto-columns: 78%; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory;
+          overscroll-behavior-x: contain; scrollbar-width: none; padding: 0 18px 4px; margin: 0 -18px; scroll-padding: 0 18px; }   /* to the screen edge (job 046) */
   .snap::-webkit-scrollbar { display: none; }
   .snap .card { scroll-snap-align: start; }
   @media (min-width: 700px) {
@@ -274,7 +327,7 @@
     .stat b { font-size: 40px; }
     .nv b { font-size: 40px; }
     .nvs { grid-template-columns: repeat(2, minmax(0, 260px)); }
-    .logos { flex-wrap: nowrap; justify-content: space-between; }
+    .logos { display: flex; justify-content: space-between; gap: 24px; }
     .lbox { flex: 0 0 120px; }
     .contact a.mailbtn { width: auto; padding: 0 28px; }
     footer { flex-direction: row; align-items: center; gap: 24px; }
@@ -282,7 +335,7 @@
     .case-head { padding: 40px 0 44px; }
     .figs { grid-template-columns: repeat(4, 1fr); gap: 28px; padding: 32px 0 8px; }
     .figs .stat b { font-size: 44px; }
-    .snap { grid-auto-columns: calc((100% - 3 * 20px) / 4); gap: 20px; }
+    .snap { grid-auto-columns: calc((100% - 3 * 20px) / 4); gap: 20px; padding: 0 32px 4px; margin: 0 -32px; scroll-padding: 0 32px; }
   }
   @media (min-width: 900px) { .arrows { display: flex; } }
 </style>
@@ -291,20 +344,20 @@
 <header class="hero" id="hero">
   <div class="wrap top">
     <a class="wordmark" href="/" aria-label="Anthony Perschon, home"><img class="apmark" src="/assets/brand/ap-mark-dark.svg" alt="AP" width="26" height="26"></a>
-    <nav class="tabs-nav" aria-label="Sections"><a href="#work">Work</a><a href="#numbers">Numbers</a><a href="#services">Services</a><a href="#contact">Contact</a></nav>
+    <nav class="tabs-nav" aria-label="Sections"><a href="#work">Work</a><a href="#numbers">Numbers</a><a href="#services">Services</a><a href="#work-with-me">Work with me</a></nav>
     <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
   </div>
   <div class="menu" id="menu" hidden>
     <button class="menu-close" type="button">Close</button>
-    <nav class="m1" aria-label="Sections"><a href="#work">Work</a><a href="#numbers">Numbers</a><a href="#services">Services</a><a href="#contact">Contact</a></nav>
+    <nav class="m1" aria-label="Sections"><a href="#work">Work</a><a href="#numbers">Numbers</a><a href="#services">Services</a><a href="#work-with-me">Work with me</a></nav>
     <nav class="m2" aria-label="Work pages"><a href="/youtube/">YouTube integrations</a><a href="/short-form/">Short form</a><a href="/campaigns/">Campaigns</a></nav>
-    <p class="mcontact"><a class="mmail" href="mailto:hello@anthonyperschon.com?subject=Partnership%20-%20%5Bbrand%5D&amp;body=Brand%3A%0AWhat%20you%20have%20in%20mind%3A%0ATimeline%3A">hello@anthonyperschon.com</a><span class="icons"><a href="https://www.youtube.com/@anthonyperschon" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path fill="currentColor" d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .5 12a31 31 0 0 0 .5 4.8 3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1 31 31 0 0 0 .5-4.8 31 31 0 0 0-.5-4.8zM9.7 15.1V8.9l5.8 3.1z"/></svg></a><a href="https://www.instagram.com/anthonyperschon/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4.4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.6" cy="6.4" r="1.3" fill="currentColor"/></svg></a><a href="https://www.tiktok.com/@anthonyperschon" target="_blank" rel="noopener" aria-label="TikTok"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path fill="currentColor" d="M16.6 2h-3.5v13.4a3 3 0 1 1-3-3c.3 0 .6 0 .9.1V9a6.6 6.6 0 1 0 5.6 6.5V8.7a8 8 0 0 0 4.9 1.6V6.8a4.9 4.9 0 0 1-4.9-4.8z"/></svg></a></span></p>
+    <p class="mcontact"><span class="icons"><a href="https://www.youtube.com/@anthonyperschon" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path fill="currentColor" d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .5 12a31 31 0 0 0 .5 4.8 3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1 31 31 0 0 0 .5-4.8 31 31 0 0 0-.5-4.8zM9.7 15.1V8.9l5.8 3.1z"/></svg></a><a href="https://www.instagram.com/anthonyperschon/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4.4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.6" cy="6.4" r="1.3" fill="currentColor"/></svg></a><a href="https://www.tiktok.com/@anthonyperschon" target="_blank" rel="noopener" aria-label="TikTok"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path fill="currentColor" d="M16.6 2h-3.5v13.4a3 3 0 1 1-3-3c.3 0 .6 0 .9.1V9a6.6 6.6 0 1 0 5.6 6.5V8.7a8 8 0 0 0 4.9 1.6V6.8a4.9 4.9 0 0 1-4.9-4.8z"/></svg></a></span></p>
   </div>
   <div class="pic"><picture><source type="image/webp" srcset="/assets/img/hero-960.webp 960w, /assets/img/hero-1440.webp 1440w, /assets/img/hero-1920.webp 1920w" sizes="100vw"><img src="/assets/img/hero-1920.jpg" srcset="/assets/img/hero-960.jpg 960w, /assets/img/hero-1440.jpg 1440w, /assets/img/hero-1920.jpg 1920w" sizes="100vw" alt="Anthony under the gym rings in low blue light, head down" width="2400" height="3200" fetchpriority="high"></picture></div>
   <div class="wrap copy">
     <h1><span class="l l1">Cinematic content.</span> <span class="l l2">On my channels, or yours.</span></h1>
     <p class="kicker">Creator and filmmaker · Salt Lake City</p>
-    <p class="herobtn"><a class="btn pill" href="#contact">Work with me</a></p>
+    <p class="herobtn"><a class="btn pill" href="#work-with-me">Work with me</a></p>
   </div>
 </header>
 <script>
@@ -327,7 +380,7 @@
 
 <section class="intro">
   <div class="wrap">
-    <p class="lead">Documentary-style video, shot like a film.</p>
+    <p class="lead">Documentary-style video. Your product inside a real day.</p>
     <div class="stats">
       <div class="stat"><b>558,000</b><span>followers</span></div>
       <div class="stat"><b>1.2 million</b><span>views a month</span></div>
@@ -379,20 +432,20 @@
   <section id="services">
     <h2 class="eyebrow">Services</h2>
     <div class="svcs">
-      <a class="tile strip" href="/campaigns/">
+      <a class="tile strip" href="/?route=campaign#work-with-me">
         <span class="tm"><picture><source type="image/webp" srcset="/assets/img/service-01-640.webp 640w, /assets/img/service-01-960.webp 960w, /assets/img/service-01-1280.webp 1280w, /assets/img/service-01-1920.webp 1920w" sizes="(min-width: 1080px) 1016px, calc(100vw - 36px)"><img src="/assets/img/service-01-1920.jpg" srcset="/assets/img/service-01-640.jpg 640w, /assets/img/service-01-960.jpg 960w, /assets/img/service-01-1280.jpg 1280w, /assets/img/service-01-1920.jpg 1920w" sizes="(min-width: 1080px) 1016px, calc(100vw - 36px)" alt="" width="1920" height="820" loading="lazy"></picture><span class="tt">Campaign Production</span><span class="go" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9 9 3M4 3h5v5"/></svg></span></span>
-        <span class="ds"><span class="dl">Planned, shot, directed and cut for your channels, or content you post, shot like my own.</span></span>
+        <span class="ds"><span class="dl">Planned, shot and cut for your own channels.</span></span>
       </a>
-      <a class="tile strip" href="/short-form/">
-        <span class="tm"><picture><source type="image/webp" srcset="/assets/img/service-02-640.webp 640w, /assets/img/service-02-960.webp 960w, /assets/img/service-02-1280.webp 1280w, /assets/img/service-02-1920.webp 1920w" sizes="(min-width: 1080px) 1016px, calc(100vw - 36px)"><img src="/assets/img/service-02-1920.jpg" srcset="/assets/img/service-02-640.jpg 640w, /assets/img/service-02-960.jpg 960w, /assets/img/service-02-1280.jpg 1280w, /assets/img/service-02-1920.jpg 1920w" sizes="(min-width: 1080px) 1016px, calc(100vw - 36px)" alt="" width="1920" height="820" loading="lazy"></picture><span class="tt">Social Partnerships</span><span class="go" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9 9 3M4 3h5v5"/></svg></span></span>
+      <a class="tile strip" href="/?route=youtube-integration#work-with-me">
+        <span class="tm"><picture><source type="image/webp" srcset="/assets/img/service-02-640.webp 640w, /assets/img/service-02-960.webp 960w, /assets/img/service-02-1280.webp 1280w, /assets/img/service-02-1920.webp 1920w" sizes="(min-width: 1080px) 1016px, calc(100vw - 36px)"><img src="/assets/img/service-02-1920.jpg" srcset="/assets/img/service-02-640.jpg 640w, /assets/img/service-02-960.jpg 960w, /assets/img/service-02-1280.jpg 1280w, /assets/img/service-02-1920.jpg 1920w" sizes="(min-width: 1080px) 1016px, calc(100vw - 36px)" alt="" width="1920" height="820" loading="lazy"></picture><span class="tt">YouTube Integration</span><span class="go" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9 9 3M4 3h5v5"/></svg></span></span>
         <span class="ds"><span class="dl">Your product inside my training and city routine, never a scripted read.</span></span>
       </a>
-      <a class="tile strip full" href="/youtube/">
-        <span class="tm"><picture><source type="image/webp" srcset="/assets/img/service-04-640.webp 640w, /assets/img/service-04-960.webp 960w, /assets/img/service-04-1280.webp 1280w, /assets/img/service-04-1920.webp 1920w" sizes="(min-width: 1080px) 1016px, calc(100vw - 36px)"><img src="/assets/img/service-04-1920.jpg" srcset="/assets/img/service-04-640.jpg 640w, /assets/img/service-04-960.jpg 960w, /assets/img/service-04-1280.jpg 1280w, /assets/img/service-04-1920.jpg 1920w" sizes="(min-width: 1080px) 1016px, calc(100vw - 36px)" alt="" width="1920" height="1080" loading="lazy"></picture><span class="tt">Retainer Partnerships</span><span class="go" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9 9 3M4 3h5v5"/></svg></span></span>
+      <a class="tile strip" href="/?route=retainer#work-with-me">
+        <span class="tm"><picture><source type="image/webp" srcset="/assets/img/service-04-640.webp 640w, /assets/img/service-04-960.webp 960w, /assets/img/service-04-1280.webp 1280w, /assets/img/service-04-1920.webp 1920w" sizes="(min-width: 1080px) 1016px, calc(100vw - 36px)"><img src="/assets/img/service-04-1920.jpg" srcset="/assets/img/service-04-640.jpg 640w, /assets/img/service-04-960.jpg 960w, /assets/img/service-04-1280.jpg 1280w, /assets/img/service-04-1920.jpg 1920w" sizes="(min-width: 1080px) 1016px, calc(100vw - 36px)" alt="" width="1920" height="820" loading="lazy"></picture><span class="tt">Retainer</span><span class="go" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9 9 3M4 3h5v5"/></svg></span></span>
         <span class="ds"><span class="dl">Monthly integrations across YouTube, Reels and TikTok.</span></span>
       </a>
-      <a class="tile strip pale" href="/campaigns/">
-        <span class="tm"><picture><source type="image/webp" srcset="/assets/img/service-05-640.webp 640w, /assets/img/service-05-960.webp 960w, /assets/img/service-05-1280.webp 1280w, /assets/img/service-05-1920.webp 1920w" sizes="(min-width: 1080px) 1016px, calc(100vw - 36px)"><img src="/assets/img/service-05-1920.jpg" srcset="/assets/img/service-05-640.jpg 640w, /assets/img/service-05-960.jpg 960w, /assets/img/service-05-1280.jpg 1280w, /assets/img/service-05-1920.jpg 1920w" sizes="(min-width: 1080px) 1016px, calc(100vw - 36px)" alt="" width="1920" height="820" loading="lazy"></picture><span class="tt" style="padding: 0.048em 0.72em">Events and Experiences</span><span class="go" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9 9 3M4 3h5v5"/></svg></span></span>
+      <a class="tile strip" href="/?route=event#work-with-me">
+        <span class="tm"><picture><source type="image/webp" srcset="/assets/img/service-05-640.webp 640w, /assets/img/service-05-960.webp 960w, /assets/img/service-05-1280.webp 1280w, /assets/img/service-05-1920.webp 1920w" sizes="(min-width: 1080px) 1016px, calc(100vw - 36px)"><img src="/assets/img/service-05-1920.jpg" srcset="/assets/img/service-05-640.jpg 640w, /assets/img/service-05-960.jpg 960w, /assets/img/service-05-1280.jpg 1280w, /assets/img/service-05-1920.jpg 1920w" sizes="(min-width: 1080px) 1016px, calc(100vw - 36px)" alt="" width="1920" height="820" loading="lazy"></picture><span class="tt">Events and Experiences</span><span class="go" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9 9 3M4 3h5v5"/></svg></span></span>
         <span class="ds"><span class="dl">Launches and pop-ups, shot and cut on the day.</span></span>
       </a>
     </div>
@@ -409,12 +462,39 @@
     </div>
   </section>
 
-  <section class="contact" id="contact">
-    <h2 class="eyebrow">Contact</h2>
-    <p class="based">Based in Salt Lake City. Available for travel.</p>
-    <p class="btnrow"><a class="btn mailbtn" href="mailto:hello@anthonyperschon.com?subject=Partnership%20-%20%5Bbrand%5D&amp;body=Brand%3A%0AWhat%20you%20have%20in%20mind%3A%0ATimeline%3A">Email hello@anthonyperschon.com</a></p>
-    <p class="addr">hello@anthonyperschon.com</p>
-    <p class="reply">Send the brief and I reply within one business day.</p>
+  <section class="wwm" id="work-with-me">
+    <h2 class="eyebrow">Work with me</h2>
+    <div class="wwm-grid" id="brief-box">
+      <div class="wwm-copy"><p>Send the brief. I reply within one business day.</p></div>
+      <div class="wwm-form">
+      <form id="brief" action="https://formspree.io/f/mgaodwee" method="POST">
+        <input type="hidden" name="_subject" id="f-subject" value="Brief from the site">
+        <input type="hidden" name="_next" value="https://anthonyperschon.com/?sent=1#work-with-me">
+        <div class="hp" aria-hidden="true"><label>Leave this empty <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label></div>
+        <div class="frow two">
+          <label class="fld"><span class="flabel">Brand (required)</span><input type="text" name="brand" id="f-brand" required autocomplete="organization"></label>
+          <label class="fld"><span class="flabel">Your name</span><input type="text" name="name" autocomplete="name"></label>
+        </div>
+        <label class="fld"><span class="flabel">Work email (required)</span><input type="email" name="email" id="f-email" required autocomplete="email"></label>
+        <fieldset class="routes" role="radiogroup" aria-label="What are we making">
+          <legend class="flabel">What are we making</legend>
+          <label class="rpill"><input type="radio" name="route" value="youtube-integration" required><span class="rl">YouTube integration</span><span class="rd">Long-form with your product inside the day, plus three short cuts.</span></label>
+          <label class="rpill"><input type="radio" name="route" value="short-form" required><span class="rl">Short form</span><span class="rd">Reels and TikToks from one shoot.</span></label>
+          <label class="rpill"><input type="radio" name="route" value="campaign" required><span class="rl">Campaign</span><span class="rd">Shot and cut for your own channels.</span></label>
+          <label class="rpill"><input type="radio" name="route" value="retainer" required><span class="rl">Retainer</span><span class="rd">Monthly integrations across YouTube, Reels and TikTok.</span></label>
+          <label class="rpill"><input type="radio" name="route" value="event" required><span class="rl">Event</span><span class="rd">Launches and pop-ups, same-day cut.</span></label>
+        </fieldset>
+        <label class="fld"><span class="flabel">Product</span><input type="text" name="product" placeholder="What we'd be filming"></label>
+        <label class="fld"><span class="flabel">Usage</span><select name="usage"><option value="" disabled selected>Select</option><option value="Organic only">Organic only</option><option value="Paid media too">Paid media too</option><option value="Not sure">Not sure</option></select></label>
+        <div class="frow two">
+          <label class="fld"><span class="flabel">Timeline</span><input type="text" name="timeline" placeholder="Live by ..."></label>
+          <label class="fld"><span class="flabel">Budget range</span><select name="budget"><option value="" disabled selected>Select</option><option value="Under $2,500">Under $2,500</option><option value="$2,500 to $5,000">$2,500 to $5,000</option><option value="$5,000 to $10,000">$5,000 to $10,000</option><option value="$10,000 plus">$10,000 plus</option><option value="Not set yet">Not set yet</option></select></label>
+        </div>
+        <label class="fld"><span class="flabel">The brief (required)</span><textarea name="brief" rows="5" required placeholder="Product, angle, what success looks like."></textarea></label>
+        <p class="fsend"><button class="btn" type="submit">Send the brief</button></p>
+      </form>
+      </div>
+    </div>
   </section>
 
   <footer>
@@ -432,6 +512,71 @@
     btn.addEventListener("click", function () { set(true); });
     panel.addEventListener("click", function () { set(false); });   // a link still opens; every other tap only closes
     document.addEventListener("keydown", function (e) { if (e.key === "Escape") set(false); });
+  })();
+</script>
+<script>
+  // the brief form (jobs 2026-10-16-044 and 045). Route cards become role="radio" with aria-checked once this runs
+  // (without JS the native radios inside them do the work). The route comes from ?route=; ?sent=1 (the no-JS return
+  // through _next) shows the sent state. Submit is a fetch; sent replaces the section body with one line; an error shows
+  // the mailto line, keeps the values and re-enables the button.
+  (function () {
+    var form = document.getElementById("brief"), box = document.getElementById("brief-box");
+    if (!form) return;
+    var q = new URLSearchParams(location.search);
+    function sent() {
+      box.innerHTML = '<p class="sent"></p>';
+      box.querySelector(".sent").textContent = "Sent. I'll reply within one business day.";
+    }
+    if (q.get("sent") === "1") { sent(); return; }
+    var subj = document.getElementById("f-subject"), brand = document.getElementById("f-brand");
+    var cards = Array.prototype.slice.call(form.querySelectorAll(".rpill"));
+    function sync() {
+      var any = cards.some(function (c) { return c.querySelector("input").checked; });
+      cards.forEach(function (c, i) {
+        var on = c.querySelector("input").checked;
+        c.setAttribute("aria-checked", on ? "true" : "false");
+        c.tabIndex = on || (!any && i === 0) ? 0 : -1;
+      });
+    }
+    function choose(c) { c.querySelector("input").checked = true; sync(); c.focus(); }
+    cards.forEach(function (c, i) {
+      var inp = c.querySelector("input");
+      c.setAttribute("role", "radio");
+      inp.tabIndex = -1;
+      inp.setAttribute("aria-hidden", "true");
+      c.addEventListener("click", function () { setTimeout(sync, 0); });
+      c.addEventListener("keydown", function (ev) {
+        var k = ev.key, n = cards.length;
+        if (k === " " || k === "Enter") { ev.preventDefault(); choose(c); }
+        else if (k === "ArrowRight" || k === "ArrowDown") { ev.preventDefault(); choose(cards[(i + 1) % n]); }
+        else if (k === "ArrowLeft" || k === "ArrowUp") { ev.preventDefault(); choose(cards[(i - 1 + n) % n]); }
+      });
+    });
+    var r = q.get("route");
+    if (r) { var pick = form.querySelector('input[name="route"][value="' + r + '"]'); if (pick) pick.checked = true; }
+    sync();
+    function subject() { subj.value = brand.value.trim() ? "Brief from " + brand.value.trim() : "Brief from the site"; }
+    brand.addEventListener("blur", subject);
+    form.addEventListener("submit", function (ev) {
+      ev.preventDefault();
+      if (!form.reportValidity()) return;
+      subject();
+      var btn = form.querySelector("button[type=submit]");
+      btn.disabled = true;
+      fetch(form.action, {method: "POST", body: new FormData(form), headers: {"Accept": "application/json"}})
+        .then(function (res) { if (!res.ok) throw new Error(String(res.status)); sent(); })
+        .catch(function () {
+          btn.disabled = false;
+          var p = form.querySelector(".ferr") || form.appendChild(document.createElement("p"));
+          p.className = "ferr";
+          p.textContent = "That didn't send. Email ";
+          var a = document.createElement("a");
+          a.href = "mailto:hello@anthonyperschon.com";
+          a.textContent = "hello@anthonyperschon.com";
+          p.appendChild(a);
+          p.appendChild(document.createTextNode("."));
+        });
+    });
   })();
 </script>
 </body>
